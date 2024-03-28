@@ -57,7 +57,7 @@ function Header({ isSticky = true }: HeaderProps) {
         </Link>
         {userInfo.loginStatus ? (
           <Styled.UserInfoBox>
-            <Styled.UserImage src={userInfo.profileImg} alt="헤더 유저 이미지" />
+            <Styled.UserImage width={28} height={28} src={userInfo.profileImg} alt="헤더 유저 이미지" />
             <Styled.UserEmail>{userInfo.email}</Styled.UserEmail>
           </Styled.UserInfoBox>
         ) : (

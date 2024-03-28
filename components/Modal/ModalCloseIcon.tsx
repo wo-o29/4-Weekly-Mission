@@ -7,7 +7,7 @@ interface ModalCloseButtonType {
 }
 
 function ModalCloseButton({ onClick }: ModalCloseButtonType) {
-  return <Styled.ModalCloseIcon onClick={onClick} src={ModalCloseIcon} alt="모달 닫기 아이콘" />;
+  return <Styled.ModalCloseIcon width={24} height={24} onClick={onClick} src={ModalCloseIcon} alt="모달 닫기 아이콘" />;
 }
 
 export default ModalCloseButton;

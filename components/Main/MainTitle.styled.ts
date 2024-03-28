@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export const Main = styled.main`
   background-color: var(--mainBgColor);
@@ -54,7 +55,7 @@ export const MainLoginButton = styled(Link)`
   }
 `;
 
-export const MainBackImage = styled.img`
+export const MainBackImage = styled(Image)`
   width: 69.875rem;
   height: auto;
   margin: 0 auto;

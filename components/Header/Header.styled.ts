@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface HeaderProps {
   $isSticky: boolean;
@@ -44,7 +45,7 @@ export const UserInfoBox = styled.div`
   align-items: center;
 `;
 
-export const UserImage = styled.img`
+export const UserImage = styled(Image)`
   border-radius: 50%;
   width: 1.75rem;
   height: 1.75rem;

@@ -11,7 +11,7 @@ function MainTitle() {
           쉽게 저장하고 <Styled.MobileLineBreak /> 관리해 보세요
         </Styled.MainTitle>
         <Styled.MainLoginButton href="/signin">링크 추가하기</Styled.MainLoginButton>
-        <Styled.MainBackImage src={MainBackgroundImg} alt="메인 배경 이미지" />
+        <Styled.MainBackImage width={650} height={312} src={MainBackgroundImg} alt="메인 배경 이미지" />
       </Styled.MainBox>
     </Styled.Main>
   );

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Image from 'next/image';
 
 interface CategoryProps {
   $isSelect: boolean;
@@ -50,7 +51,7 @@ export const CategoryAddText = styled.span`
   width: 5rem;
 `;
 
-export const CategoryAddImg = styled.img`
+export const CategoryAddImg = styled(Image)`
   width: 1rem;
   height: 1rem;
 `;
@@ -78,7 +79,7 @@ export const CategoryControlList = styled.ul`
   align-items: center;
 `;
 
-export const CategoryControlImg = styled.img`
+export const CategoryControlImg = styled(Image)`
   width: 1.125rem;
   height: 1.125rem;
 `;

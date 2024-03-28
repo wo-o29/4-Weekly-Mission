@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Image from 'next/image';
 
 interface CardImageProps {
   $imgSrc: string;
@@ -51,7 +52,7 @@ export const CardListEmpty = styled.div`
   }
 `;
 
-export const StarIcon = styled.img`
+export const StarIcon = styled(Image)`
   position: absolute;
   top: 0.94rem;
   right: 0.94rem;

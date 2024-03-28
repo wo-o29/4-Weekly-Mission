@@ -69,7 +69,7 @@ function Category({
         </Styled.CategoryBox>
         <Styled.CategoryAddButton onClick={() => handleModalAction('폴더 추가')}>
           <Styled.CategoryAddText>폴더 추가</Styled.CategoryAddText>
-          <Styled.CategoryAddImg src={AddIcon} alt="폴더 추가 아이콘" />
+          <Styled.CategoryAddImg width={16} height={16} src={AddIcon} alt="폴더 추가 아이콘" />
         </Styled.CategoryAddButton>
       </Styled.Category>
 
@@ -85,7 +85,7 @@ function Category({
                   handleModalAction(list.actionText, selectCategory.name, url);
                 }}
               >
-                <Styled.CategoryControlImg src={list.img} alt={`${list.text} 이미지`} />
+                <Styled.CategoryControlImg width={18} height={18} src={list.img} alt={`${list.text} 이미지`} />
                 <Styled.CategoryControlText>{list.text}</Styled.CategoryControlText>
               </li>
             ))}

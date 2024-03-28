@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Image from 'next/image';
 
 interface ModalProps {
   $isSelect: boolean;
@@ -29,7 +30,7 @@ export const Modal = styled.div`
   text-align: center;
 `;
 
-export const ModalCloseIcon = styled.img`
+export const ModalCloseIcon = styled(Image)`
   position: absolute;
   right: 1rem;
   top: 1rem;
@@ -137,7 +138,7 @@ export const ModalCategoryCount = styled.span`
   margin-left: 0.5rem;
 `;
 
-export const ModalCategorySelectImg = styled.img`
+export const ModalCategorySelectImg = styled(Image)`
   float: right;
   padding-top: 0.35rem;
 `;

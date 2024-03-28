@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Image from 'next/image';
 
 interface CardProps {
   $index: number;
@@ -77,7 +78,7 @@ export const CardImgBox = styled.figure`
   }
 `;
 
-export const CardImg = styled.img`
+export const CardImg = styled(Image)`
   width: 34.375rem;
   height: auto;
   @media (max-width: 1199px) {

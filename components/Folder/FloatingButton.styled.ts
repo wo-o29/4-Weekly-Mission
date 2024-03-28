@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Image from 'next/image';
 
 export const FloatingButton = styled.div`
   border-radius: 1.25rem;
@@ -25,6 +26,6 @@ export const FloatingButtonText = styled.p`
   letter-spacing: -0.01875rem;
 `;
 
-export const FloatingButtonImg = styled.img`
+export const FloatingButtonImg = styled(Image)`
   padding-bottom: 0.2rem;
 `;

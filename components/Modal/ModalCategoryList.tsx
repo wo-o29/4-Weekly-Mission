@@ -39,7 +39,7 @@ function ModalCategoryList({ categoryListLoop }: ModalCategoryListType) {
           <Styled.ModalCategoryList onClick={handleSelectCategory} key={id} data-id={id} $isSelect={isSelect}>
             {name}
             <Styled.ModalCategoryCount data-id={id}>{`${link.count}개 링크`}</Styled.ModalCategoryCount>
-            {isSelect && <Styled.ModalCategorySelectImg src={ModalCheckIcon} alt="체크 아이콘" />}
+            {isSelect && <Styled.ModalCategorySelectImg width={14} height={14} src={ModalCheckIcon} alt="체크 아이콘" />}
           </Styled.ModalCategoryList>
         );
       })}
