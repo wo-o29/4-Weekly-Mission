@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import Header from '../components/Header/Header';
-import Content from '../components/Content/Content';
-import Footer from '../components/Footer/Footer';
-import { API_PATH } from '../services/api-path';
-import FETCH_API from '../services/fetch-data';
+import Head from 'next/head';
+import Header from '../../components/Header/Header';
+import Content from '../../components/Content/Content';
+import Footer from '../../components/Footer/Footer';
+import { API_PATH } from '../../services/api-path';
+import FETCH_API from '../../services/fetch-data';
 import * as Styled from './Share.styled';
-import { LinkType } from '../types/type';
+import { LinkType } from '../../types/type';
 
 interface UserProfile {
   profileImg: string;
@@ -44,6 +45,9 @@ function Share() {
 
   return (
     <>
+     <Head>
+        <title>share | Linkbrary</title>
+      </Head>
       <Header />
       <Styled.Share>
         <Styled.Profile>

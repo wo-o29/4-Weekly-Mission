@@ -4,6 +4,6 @@ import GlobalStyles from "../styles/Global.styled";
 export default function App({ Component, pageProps }: AppProps) {
   return(<>
    <GlobalStyles/>
-   <Component {...pageProps} />;
+   <Component {...pageProps} />
    </>)
 }

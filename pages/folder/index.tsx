@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import Header from '../components/Header/Header';
-import FolderContent from '../components/Folder/FolderContent';
-import Footer from '../components/Footer/Footer';
-import FloatingButton from '../components/Folder/FloatingButton';
-import Modal from '../components/Modal/Modal';
-import { CategoryType, DefaultCategoryType, ModalActionType } from '../types/type';
+import Head from 'next/head';
+import Header from '../../components/Header/Header';
+import FolderContent from '../../components/Folder/FolderContent';
+import Footer from '../../components/Footer/Footer';
+import FloatingButton from '../../components/Folder/FloatingButton';
+import Modal from '../../components/Modal/Modal';
+import { CategoryType, DefaultCategoryType, ModalActionType } from '../../types/type';
 
 let prevId: number = 999;
 
@@ -60,6 +61,9 @@ function Folder() {
   };
   return (
     <>
+      <Head>
+        <title>folder | Linkbrary</title>
+      </Head>
       <Header isSticky={false} />
       <FolderContent {...folderContentProps} />
       <Footer />

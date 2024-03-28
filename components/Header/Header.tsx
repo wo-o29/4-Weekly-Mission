@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { API_PATH } from '../../services/api-path';
 import * as Styled from './Header.styled';
