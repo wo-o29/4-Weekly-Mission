@@ -5,7 +5,7 @@ const nextConfig = {
     styledComponents: true
   },
   images: {
-    domains: ['yt3.googleusercontent.com', 'assets.vercel.com', 'codeit-images.codeit.com'],
+    domains: ['codeit-images.codeit.com'],
   },
 };
 
