@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import * as Styled from './SocialLogin.styled'
+import * as Styled from './SocialLogin.styled';
 
 const GoogleBackgroundImg = '/icon/google-background.svg';
 const GoogleImg = '/images/google.webp';

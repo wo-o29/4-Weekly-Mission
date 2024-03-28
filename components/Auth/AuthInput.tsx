@@ -1,8 +1,8 @@
-import { useState, ChangeEvent, forwardRef, ForwardedRef  } from 'react';
-import * as Styled from './AuthInput.styled'
+import { useState, ChangeEvent, forwardRef, ForwardedRef } from 'react';
+import * as Styled from './AuthInput.styled';
 import { REGEXP_EMAIL, REGEXP_PASSWORD } from '../../utils/regExp';
 
-interface InitialErrorMessage{
+interface InitialErrorMessage {
   email: string;
   password: string;
   passwordConfirm: string;
@@ -38,9 +38,9 @@ const AuthInput = forwardRef(function AuthInput(props: InputProps, ref: Forwarde
 
   const handleError = () => {
     // 이메일 에러
-    switch(labelText){
-      case '이메일': 
-        if(!inputValue){
+    switch (labelText) {
+      case '이메일':
+        if (!inputValue) {
           setError((prev) => ({
             ...prev,
             email: '이메일을 입력해 주세요'
@@ -62,7 +62,7 @@ const AuthInput = forwardRef(function AuthInput(props: InputProps, ref: Forwarde
         return;
 
       case '비밀번호':
-        if(!inputValue){
+        if (!inputValue) {
           setError((prev) => ({
             ...prev,
             password: '비밀번호를 입력해 주세요'
@@ -70,21 +70,21 @@ const AuthInput = forwardRef(function AuthInput(props: InputProps, ref: Forwarde
           return;
         }
 
-        if(!REGEXP_PASSWORD.test(inputValue)){
+        if (!REGEXP_PASSWORD.test(inputValue)) {
           setError((prev) => ({
             ...prev,
             password: '비밀번호는 영문, 숫자 조합 8자 이상 입력해 주세요'
           }));
-          return
+          return;
         }
         setError((prev) => ({
           ...prev,
           password: ''
         }));
-        return
+        return;
 
       case '비밀번호 확인':
-        if(!inputValue){
+        if (!inputValue) {
           setError((prev) => ({
             ...prev,
             password: '비밀번호를 입력해 주세요'
@@ -92,34 +92,32 @@ const AuthInput = forwardRef(function AuthInput(props: InputProps, ref: Forwarde
           return;
         }
 
-        if(!REGEXP_PASSWORD.test(inputValue)){
+        if (!REGEXP_PASSWORD.test(inputValue)) {
           setError((prev) => ({
             ...prev,
             passwordConfirm: '비밀번호는 영문, 숫자 조합 8자 이상 입력해 주세요'
           }));
-          return
+          return;
         }
         setError((prev) => ({
           ...prev,
           passwordConfirm: ''
         }));
-        return
+        return;
     }
   };
 
   return (
     <>
       <Styled.InputBox>
-        <Styled.LabelText htmlFor={labelText} >
-          {labelText}
-        </Styled.LabelText>
+        <Styled.LabelText htmlFor={labelText}>{labelText}</Styled.LabelText>
         <Styled.Input
           ref={ref}
           id={labelText}
           value={inputValue}
           onBlur={handleError}
           onChange={(e) => handleInputValue(e)}
-          type={type===TEXT ? TEXT : isView ? TEXT : PASSWORD}
+          type={type === TEXT ? TEXT : isView ? TEXT : PASSWORD}
           placeholder={placeholder}
           $error={error}
           autoComplete="current-password"

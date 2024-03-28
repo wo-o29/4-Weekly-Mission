@@ -45,7 +45,7 @@ function Share() {
 
   return (
     <>
-     <Head>
+      <Head>
         <title>share | Linkbrary</title>
       </Head>
       <Header />

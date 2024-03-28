@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import Image from "next/image";
-import * as Styled from './AuthTitle.styled'
+import Image from 'next/image';
+import * as Styled from './AuthTitle.styled';
 
-const LogoImg =  '/icon/big-logo.svg';
+const LogoImg = '/icon/big-logo.svg';
 
 interface AuthTitleProps {
   text: string;
@@ -18,9 +18,7 @@ function AuthTitle({ text, action, actionText }: AuthTitleProps) {
       </Link>
       <Styled.Text>
         {`${text} `}
-        <Styled.ActionText href={action}>
-          {actionText}
-        </Styled.ActionText>
+        <Styled.ActionText href={action}>{actionText}</Styled.ActionText>
       </Styled.Text>
     </Styled.Title>
   );
