@@ -5,8 +5,8 @@ const nextConfig = {
     styledComponents: true
   },
   images: {
-    domains: ['codeit-images.codeit.com'],
-  },
+    domains: ['codeit-images.codeit.com']
+  }
 };
 
 export default nextConfig;
