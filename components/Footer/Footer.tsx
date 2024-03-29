@@ -1,6 +1,5 @@
-import React from 'react';
-import * as Styled from './Footer.styled';
 import Image from 'next/image';
+import * as Styled from './Footer.styled';
 
 interface FooterLinkType {
   url: string;

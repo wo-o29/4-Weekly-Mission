@@ -7,7 +7,7 @@ import FloatingButton from '../../components/Folder/FloatingButton';
 import Modal from '../../components/Modal/Modal';
 import { CategoryType, DefaultCategoryType, ModalActionType } from '../../types/type';
 
-let prevId: number = 999;
+let prevId = 999;
 
 const INITIAL_CATEGORY: DefaultCategoryType[] = [
   {

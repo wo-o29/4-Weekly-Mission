@@ -25,7 +25,7 @@ function MainCard({ list, index }: CardProps) {
         <Styled.CardText>{list.text}</Styled.CardText>
       </Styled.CardTitleBox>
       <Styled.CardImgBox>
-        <Styled.CardImg width={385} height={315} src={list.img} alt={`카드 이미지`} />
+        <Styled.CardImg width={385} height={315} src={list.img} alt="카드 이미지" />
       </Styled.CardImgBox>
       <Styled.CardMobileText>{list.text}</Styled.CardMobileText>
     </Styled.Card>

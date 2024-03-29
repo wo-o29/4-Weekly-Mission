@@ -109,7 +109,7 @@ function FolderContent({
 
   const checkScrollY = () => {
     if (linkAddElement.current) {
-      if (scrollY > 144) {
+      if (window.scrollY > 144) {
         linkAddElement.current.style.position = 'fixed';
         linkAddElement.current.style.bottom = '0px';
         linkAddElement.current.style.padding = '1rem 0';

@@ -4,7 +4,7 @@
     "browser": true,
     "es2021": true
   },
-  "extends": "airbnb", // Aribnb의 JavaScript 스타일 가이드 기반
+  "extends": ["airbnb", "plugin:@typescript-eslint/recommended"], // Aribnb의 JavaScript 스타일 가이드 기반
   "overrides": [
     // 특정 환경 또는 파일에 대한 추가적인 설정 정의
     {
@@ -22,11 +22,17 @@
       }
     }
   ],
+  "parser": "@typescript-eslint/parser", // TypeScript 코드를 해석하기 위한 파서
   "parserOptions": {
     // 코드를 해석하는데 필요한 parse 옵션 정의(가장 최신 ECMAScript 사용, 모듈)
     "ecmaVersion": "latest",
-    "sourceType": "module"
+    "sourceType": "module",
+    "parser": "babel-eslint",
+    "project": "./tsconfig.json"
   },
+  "plugins": [
+    "@typescript-eslint" // TypeScript 플러그인 추가
+  ],
   "rules": {
     // ESLint 규칙을 추가하거나 재정의
     "react/jsx-props-no-spreading": "off",
@@ -58,7 +64,15 @@
       }
     ],
     "react/no-array-index-key": "off",
-    "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }]
+    "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
+    "arrow-body-style": "off",
+    "react/require-default-props": "off",
+    "react/no-unused-prop-types": "off",
+    "no-nested-ternary": "warn",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "operator-linebreak": "off",
+    "camelcase": "off"
   },
   "settings": {
     "import/resolver": {

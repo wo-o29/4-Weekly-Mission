@@ -1,5 +1,5 @@
-import * as Styled from './signin.styled';
 import Head from 'next/head';
+import * as Styled from '../../styles/signin.styled';
 import AuthTitle from '../../components/Auth/AuthTitle';
 import AuthForm from '../../components/Auth/AuthForm';
 import SocialLogin from '../../components/Auth/SocialLogin';

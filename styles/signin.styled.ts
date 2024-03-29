@@ -27,5 +27,5 @@ export const Main = styled.main`
 export const AuthBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.88rem;
+  gap: 0.38rem;
 `;

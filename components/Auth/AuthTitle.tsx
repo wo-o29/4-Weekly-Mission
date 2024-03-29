@@ -14,7 +14,7 @@ function AuthTitle({ text, action, actionText }: AuthTitleProps) {
   return (
     <Styled.Title>
       <Link href="/">
-        <Image width={210} height={38} priority={true} src={LogoImg} alt="로고 이미지" />
+        <Image width={210} height={38} priority src={LogoImg} alt="로고 이미지" />
       </Link>
       <Styled.Text>
         {`${text} `}

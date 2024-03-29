@@ -1,5 +1,5 @@
-import * as Styled from './signup.styled';
 import Head from 'next/head';
+import * as Styled from '../../styles/signup.styled';
 import AuthTitle from '../../components/Auth/AuthTitle';
 import AuthForm from '../../components/Auth/AuthForm';
 import SocialLogin from '../../components/Auth/SocialLogin';
@@ -14,7 +14,7 @@ function SignUp() {
         <Styled.Main>
           <Styled.AuthBox>
             <AuthTitle text="이미 회원이신가요?" action="/signin" actionText="로그인 하기" />
-            <AuthForm isRegister={true} />
+            <AuthForm isRegister />
           </Styled.AuthBox>
           <SocialLogin />
         </Styled.Main>

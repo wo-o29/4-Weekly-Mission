@@ -13,10 +13,6 @@ export const LabelText = styled.label`
   font-size: 0.875rem;
   margin: 1.5rem 0 0.75rem;
   display: inline-block;
-
-  &:nth-of-type(0) {
-    margin: 0 0 0.75rem;
-  }
 `;
 
 export const Input = styled.input<InputStyleProps>`

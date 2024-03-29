@@ -9,7 +9,7 @@ interface InitialErrorMessage {
 }
 
 interface InputProps {
-  ref: any;
+  ref: HTMLInputElement;
   type: string;
   labelText: string;
   placeholder: string;
@@ -17,13 +17,13 @@ interface InputProps {
   setError: React.Dispatch<React.SetStateAction<InitialErrorMessage>>;
 }
 
-const PASSWORD: string = 'password';
-const TEXT: string = 'text';
+const PASSWORD = 'password';
+const TEXT = 'text';
 
 const eyeIcon = '/icon/eye-on.svg';
 const eyeSlashIcon = '/icon/eye-off.svg';
 
-const AuthInput = forwardRef(function AuthInput(props: InputProps, ref: ForwardedRef<HTMLInputElement>) {
+const AuthInput = forwardRef((props: InputProps, ref: ForwardedRef<HTMLInputElement>) => {
   const { type, labelText, placeholder, error, setError } = props;
   const [inputValue, setInputValue] = useState<string>('');
   const [isView, setIsView] = useState<boolean>(false);
@@ -83,7 +83,7 @@ const AuthInput = forwardRef(function AuthInput(props: InputProps, ref: Forwarde
         }));
         return;
 
-      case '비밀번호 확인':
+      default:
         if (!inputValue) {
           setError((prev) => ({
             ...prev,
@@ -103,7 +103,6 @@ const AuthInput = forwardRef(function AuthInput(props: InputProps, ref: Forwarde
           ...prev,
           passwordConfirm: ''
         }));
-        return;
     }
   };
 

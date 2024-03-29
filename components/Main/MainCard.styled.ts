@@ -36,7 +36,7 @@ export const CardTitleBox = styled.div<CardProps>`
   width: 18.1875rem;
   gap: 0.625rem;
   height: auto;
-  order: ${({ $index }) => ($index % 2 === 1 ? `0` : `3`)};
+  order: ${({ $index }) => ($index % 2 === 1 ? '0' : '3')};
   @media (max-width: 767px) {
     order: 0;
   }
