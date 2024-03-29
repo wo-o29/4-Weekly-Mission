@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, forwardRef, ForwardedRef } from 'react';
 import * as Styled from './AuthInput.styled';
-import { REGEXP_EMAIL, REGEXP_PASSWORD } from '../../utils/regExp';
+import validateUserInput from '../../utils/validateUserInput';
 
 interface InitialErrorMessage {
   [key: string]: string;
@@ -67,9 +67,7 @@ const AuthInput = forwardRef((props: InputProps, ref: ForwardedRef<HTMLInputElem
   const handleError = () => {
     if (!inputValue) {
       errorType = EMPTY_VALUE;
-    } else if (labelText === EMAIL && !REGEXP_EMAIL.test(inputValue)) {
-      errorType = VALIDATION;
-    } else if ((labelText === PASSWORD || labelText === PASSWORD_CONFIRM) && !REGEXP_PASSWORD.test(inputValue)) {
+    } else if (validateUserInput(labelText, inputValue)) {
       errorType = VALIDATION;
     } else {
       errorType = NO_ERROR;
