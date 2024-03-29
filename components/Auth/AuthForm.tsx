@@ -9,27 +9,28 @@ interface AuthFormProps {
   isRegister: boolean;
 }
 
+const EMAIL = '이메일';
+const PASSWORD = '비밀번호';
+const PASSWORD_CONFIRM = '비밀번호 확인';
+
 interface InitialErrorMessage {
-  email: string;
-  password: string;
-  passwordConfirm: string;
+  [key: string]: string;
 }
 
 const INITIAL_ERROR_MESSAGE: InitialErrorMessage = {
-  email: '',
-  password: '',
-  passwordConfirm: ''
+  [EMAIL]: '',
+  [PASSWORD]: '',
+  [PASSWORD_CONFIRM]: ''
 };
 
 const ACCESSTOKEN = 'accessToken';
 
 function AuthForm({ isRegister }: AuthFormProps) {
-  const [errorMessage, setErrorMessage] = useState(INITIAL_ERROR_MESSAGE);
+  const [errorMessage, setErrorMessage] = useState<InitialErrorMessage>(INITIAL_ERROR_MESSAGE);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-
   // 로그인 로직
   const login = async () => {
     try {
@@ -41,8 +42,8 @@ function AuthForm({ isRegister }: AuthFormProps) {
       if (!response.ok) {
         setErrorMessage((prev) => ({
           ...prev,
-          email: '이메일을 확인해 주세요.',
-          password: '비밀번호를 확인해 주세요.'
+          [EMAIL]: '이메일을 확인해 주세요.',
+          [PASSWORD]: '비밀번호를 확인해 주세요.'
         }));
         throw new Error('로그인 실패 ㅇ_ㅇ!');
       }
@@ -61,7 +62,7 @@ function AuthForm({ isRegister }: AuthFormProps) {
     }
     setErrorMessage((prev) => ({
       ...prev,
-      passwordConfirm: '비밀번호가 일치하지 않아요.'
+      [PASSWORD_CONFIRM]: '비밀번호가 일치하지 않아요.'
     }));
     throw new Error('비밀번호 일치 오류!');
   };
@@ -76,7 +77,7 @@ function AuthForm({ isRegister }: AuthFormProps) {
       if (!emailCheckResponse.ok) {
         setErrorMessage((prev) => ({
           ...prev,
-          email: '이미 사용 중인 이메일입니다.'
+          [EMAIL]: '이미 사용 중인 이메일입니다.'
         }));
         throw new Error('중복된 이메일 ㅇ_ㅇ!');
       }
@@ -114,7 +115,7 @@ function AuthForm({ isRegister }: AuthFormProps) {
         type="text"
         labelText="이메일"
         placeholder="이메일을 입력해주세요"
-        error={errorMessage.email}
+        error={errorMessage[EMAIL]}
         setError={setErrorMessage}
       />
       <AuthInput
@@ -122,7 +123,7 @@ function AuthForm({ isRegister }: AuthFormProps) {
         type="password"
         labelText="비밀번호"
         placeholder={isRegister ? '영문, 숫자를 조합해 8자 이상 입력해 주세요' : '비밀번호를 입력해 주세요'}
-        error={errorMessage.password}
+        error={errorMessage[PASSWORD]}
         setError={setErrorMessage}
       />
       {isRegister && (
@@ -131,7 +132,7 @@ function AuthForm({ isRegister }: AuthFormProps) {
           type="password"
           labelText="비밀번호 확인"
           placeholder="비밀번호와 일치하는 값을 입력해 주세요"
-          error={errorMessage.passwordConfirm}
+          error={errorMessage[PASSWORD_CONFIRM]}
           setError={setErrorMessage}
         />
       )}

@@ -3,9 +3,13 @@ import * as Styled from './AuthInput.styled';
 import { REGEXP_EMAIL, REGEXP_PASSWORD } from '../../utils/regExp';
 
 interface InitialErrorMessage {
-  email: string;
-  password: string;
-  passwordConfirm: string;
+  [key: string]: string;
+}
+
+interface ErrorScript {
+  [key: string]: {
+    [key: string]: string;
+  };
 }
 
 interface InputProps {
@@ -17,12 +21,36 @@ interface InputProps {
   setError: React.Dispatch<React.SetStateAction<InitialErrorMessage>>;
 }
 
-const PASSWORD = 'password';
-const TEXT = 'text';
+const TYPE_PASSWORD = 'password';
+const TYPE_TEXT = 'text';
+const EMAIL = '이메일';
+const PASSWORD = '비밀번호';
+const PASSWORD_CONFIRM = '비밀번호 확인';
+const EMPTY_VALUE = 'EMPTY_VALUE';
+const VALIDATION = 'VALIDATION';
+const NO_ERROR = 'NO_ERROR';
 
 const eyeIcon = '/icon/eye-on.svg';
 const eyeSlashIcon = '/icon/eye-off.svg';
 
+const ERROR_SCRIPT: ErrorScript = {
+  [EMAIL]: {
+    [NO_ERROR]: '',
+    [EMPTY_VALUE]: '이메일을 입력해 주세요',
+    [VALIDATION]: '올바른 이메일 주소가 아닙니다.'
+  },
+  [PASSWORD]: {
+    [NO_ERROR]: '',
+    [EMPTY_VALUE]: '비밀번호를 입력해 주세요',
+    [VALIDATION]: '비밀번호는 영문, 숫자 조합 8자 이상 입력해 주세요'
+  },
+  [PASSWORD_CONFIRM]: {
+    [NO_ERROR]: '',
+    [EMPTY_VALUE]: '비밀번호를 입력해 주세요',
+    [VALIDATION]: '비밀번호는 영문, 숫자 조합 8자 이상 입력해 주세요'
+  }
+};
+let errorType: string;
 const AuthInput = forwardRef((props: InputProps, ref: ForwardedRef<HTMLInputElement>) => {
   const { type, labelText, placeholder, error, setError } = props;
   const [inputValue, setInputValue] = useState<string>('');
@@ -37,73 +65,20 @@ const AuthInput = forwardRef((props: InputProps, ref: ForwardedRef<HTMLInputElem
   };
 
   const handleError = () => {
-    // 이메일 에러
-    switch (labelText) {
-      case '이메일':
-        if (!inputValue) {
-          setError((prev) => ({
-            ...prev,
-            email: '이메일을 입력해 주세요'
-          }));
-          return;
-        }
-
-        if (!REGEXP_EMAIL.test(inputValue)) {
-          setError((prev) => ({
-            ...prev,
-            email: '올바른 이메일 주소가 아닙니다.'
-          }));
-          return;
-        }
-        setError((prev) => ({
-          ...prev,
-          email: ''
-        }));
-        return;
-
-      case '비밀번호':
-        if (!inputValue) {
-          setError((prev) => ({
-            ...prev,
-            password: '비밀번호를 입력해 주세요'
-          }));
-          return;
-        }
-
-        if (!REGEXP_PASSWORD.test(inputValue)) {
-          setError((prev) => ({
-            ...prev,
-            password: '비밀번호는 영문, 숫자 조합 8자 이상 입력해 주세요'
-          }));
-          return;
-        }
-        setError((prev) => ({
-          ...prev,
-          password: ''
-        }));
-        return;
-
-      default:
-        if (!inputValue) {
-          setError((prev) => ({
-            ...prev,
-            password: '비밀번호를 입력해 주세요'
-          }));
-          return;
-        }
-
-        if (!REGEXP_PASSWORD.test(inputValue)) {
-          setError((prev) => ({
-            ...prev,
-            passwordConfirm: '비밀번호는 영문, 숫자 조합 8자 이상 입력해 주세요'
-          }));
-          return;
-        }
-        setError((prev) => ({
-          ...prev,
-          passwordConfirm: ''
-        }));
+    if (!inputValue) {
+      errorType = EMPTY_VALUE;
+    } else if (labelText === EMAIL && !REGEXP_EMAIL.test(inputValue)) {
+      errorType = VALIDATION;
+    } else if ((labelText === PASSWORD || labelText === PASSWORD_CONFIRM) && !REGEXP_PASSWORD.test(inputValue)) {
+      errorType = VALIDATION;
+    } else {
+      errorType = NO_ERROR;
     }
+
+    setError((prev) => ({
+      ...prev,
+      [labelText]: ERROR_SCRIPT[labelText][errorType]
+    }));
   };
 
   return (
@@ -116,12 +91,12 @@ const AuthInput = forwardRef((props: InputProps, ref: ForwardedRef<HTMLInputElem
           value={inputValue}
           onBlur={handleError}
           onChange={(e) => handleInputValue(e)}
-          type={type === TEXT ? TEXT : isView ? TEXT : PASSWORD}
+          type={type === TYPE_TEXT ? TYPE_TEXT : isView ? TYPE_TEXT : TYPE_PASSWORD}
           placeholder={placeholder}
           $error={error}
           autoComplete="current-password"
         />
-        {type === PASSWORD && (
+        {type === TYPE_PASSWORD && (
           <Styled.EyeIcon
             data-status={labelText}
             src={isView ? eyeSlashIcon : eyeIcon}
