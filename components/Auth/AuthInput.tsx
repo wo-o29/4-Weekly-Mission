@@ -87,9 +87,9 @@ const AuthInput = forwardRef((props: InputProps, ref: ForwardedRef<HTMLInputElem
           ref={ref}
           id={labelText}
           value={inputValue}
-          onBlur={handleError}
           onChange={(e) => handleInputValue(e)}
-          type={type === TYPE_TEXT ? TYPE_TEXT : isView ? TYPE_TEXT : TYPE_PASSWORD}
+          onBlur={handleError}
+          type={type === TYPE_PASSWORD && !isView ? TYPE_PASSWORD : TYPE_TEXT}
           placeholder={placeholder}
           $error={error}
           autoComplete="current-password"
