@@ -40,18 +40,17 @@ function AuthForm({ isRegister }: AuthFormProps) {
       };
       const response = await FETCH_API.post(API_PATH.SIGNIN, userInfo);
       if (!response.ok) {
-        setErrorMessage((prev) => ({
-          ...prev,
-          [EMAIL]: '이메일을 확인해 주세요.',
-          [PASSWORD]: '비밀번호를 확인해 주세요.'
-        }));
         throw new Error('로그인 실패 ㅇ_ㅇ!');
       }
       const result = await response.json();
       localStorage.setItem(ACCESSTOKEN, result.data.accessToken);
-      router.push('/share');
+      router.push('/folder');
     } catch (err) {
-      console.error(err);
+      setErrorMessage((prev) => ({
+        ...prev,
+        [EMAIL]: '이메일을 확인해 주세요.',
+        [PASSWORD]: '비밀번호를 확인해 주세요.'
+      }));
     }
   };
 
@@ -91,7 +90,7 @@ function AuthForm({ isRegister }: AuthFormProps) {
       }
       const result = await registerResponse.json();
       localStorage.setItem(ACCESSTOKEN, result.data.accessToken);
-      router.push('/share');
+      router.push('/folder');
     } catch (err) {
       console.error(err);
     }

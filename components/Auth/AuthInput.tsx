@@ -97,7 +97,7 @@ const AuthInput = forwardRef((props: InputProps, ref: ForwardedRef<HTMLInputElem
         {type === TYPE_PASSWORD && (
           <Styled.EyeIcon
             data-status={labelText}
-            src={isView ? eyeSlashIcon : eyeIcon}
+            src={isView ? eyeIcon : eyeSlashIcon}
             width={16}
             height={16}
             alt="눈 모양 아이콘"
