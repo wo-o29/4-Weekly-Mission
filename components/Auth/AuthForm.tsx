@@ -112,7 +112,7 @@ function AuthForm({ isRegister }: AuthFormProps) {
     <Styled.Form onSubmit={handleFormSumbit}>
       <AuthInput
         ref={emailRef}
-        type="text"
+        type="email"
         labelText="이메일"
         placeholder="이메일을 입력해주세요"
         error={errorMessage[EMAIL]}
