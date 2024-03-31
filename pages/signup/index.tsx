@@ -1,10 +1,19 @@
+import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { useEffect } from 'react';
 import * as Styled from '../../styles/signup.styled';
 import AuthTitle from '../../components/Auth/AuthTitle';
 import AuthForm from '../../components/Auth/AuthForm';
 import SocialLogin from '../../components/Auth/SocialLogin';
+import authCheck from '../../utils/authCheck';
 
 function SignUp() {
+  const router = useRouter();
+
+  useEffect(() => {
+    authCheck(router);
+  }, []);
+
   return (
     <>
       <Head>
