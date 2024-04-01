@@ -23,6 +23,7 @@ interface InputProps {
 
 const TYPE_PASSWORD = 'password';
 const TYPE_TEXT = 'text';
+const TYPE_EMAIL = 'email';
 const EMAIL = '이메일';
 const PASSWORD = '비밀번호';
 const PASSWORD_CONFIRM = '비밀번호 확인';
@@ -89,7 +90,7 @@ const AuthInput = forwardRef((props: InputProps, ref: ForwardedRef<HTMLInputElem
           value={inputValue}
           onChange={(e) => handleInputValue(e)}
           onBlur={handleError}
-          type={type === TYPE_PASSWORD && !isView ? TYPE_PASSWORD : TYPE_TEXT}
+          type={type === TYPE_EMAIL ? TYPE_EMAIL : isView ? TYPE_TEXT : TYPE_PASSWORD}
           placeholder={placeholder}
           $error={error}
           autoComplete="current-password"
