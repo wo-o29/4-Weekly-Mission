@@ -112,7 +112,7 @@ function AuthForm({ isRegister }: AuthFormProps) {
       <AuthInput
         ref={emailRef}
         type="email"
-        labelText="이메일"
+        labelText={EMAIL}
         placeholder="이메일을 입력해주세요"
         error={errorMessage[EMAIL]}
         setError={setErrorMessage}
@@ -120,7 +120,7 @@ function AuthForm({ isRegister }: AuthFormProps) {
       <AuthInput
         ref={passwordRef}
         type="password"
-        labelText="비밀번호"
+        labelText={PASSWORD}
         placeholder={isRegister ? '영문, 숫자를 조합해 8자 이상 입력해 주세요' : '비밀번호를 입력해 주세요'}
         error={errorMessage[PASSWORD]}
         setError={setErrorMessage}
@@ -129,7 +129,7 @@ function AuthForm({ isRegister }: AuthFormProps) {
         <AuthInput
           ref={passwordConfirmRef}
           type="password"
-          labelText="비밀번호 확인"
+          labelText={PASSWORD_CONFIRM}
           placeholder="비밀번호와 일치하는 값을 입력해 주세요"
           error={errorMessage[PASSWORD_CONFIRM]}
           setError={setErrorMessage}
