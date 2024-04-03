@@ -5,6 +5,7 @@ import { API_PATH } from '../../services/api-path';
 import * as Styled from './AuthForm.styled';
 import FETCH_API from '../../services/fetch-data';
 import AuthInput from './AuthInput';
+import setLocalstroage from '../../utils/setLocalstroage';
 
 interface AuthFormProps {
   isRegister: boolean;
@@ -44,7 +45,7 @@ function AuthForm({ isRegister }: AuthFormProps) {
         throw new Error('로그인 실패 ㅇ_ㅇ!');
       }
       const result = await response.json();
-      localStorage.setItem(ACCESSTOKEN, result.data.accessToken);
+      setLocalstroage(ACCESSTOKEN, result.data.accessToken);
       router.push('/folder');
     } catch (err) {
       setErrorMessage((prev) => ({
@@ -90,7 +91,7 @@ function AuthForm({ isRegister }: AuthFormProps) {
         throw new Error('회원가입 실패 ㅇ_ㅇ!');
       }
       const result = await registerResponse.json();
-      localStorage.setItem(ACCESSTOKEN, result.data.accessToken);
+      setLocalstroage(ACCESSTOKEN, result.data.accessToken);
       router.push('/folder');
     } catch (err) {
       console.error(err);
