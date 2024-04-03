@@ -66,7 +66,7 @@ export const CardImgBox = styled.figure<CardImageProps>`
   background: ${({ $imgSrc, $icon }) => ($imgSrc ? '#ffffff' : `#dddfff url(${$icon}) no-repeat center`)};
 `;
 
-export const CardImg = styled.img`
+export const CardImg = styled(Image)`
   width: 100%;
   height: 100%;
   background-color: #ccd5e3;

@@ -1,5 +1,6 @@
 import { FormEvent, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useForm } from 'react-hook-form';
 import { API_PATH } from '../../services/api-path';
 import * as Styled from './AuthForm.styled';
 import FETCH_API from '../../services/fetch-data';
