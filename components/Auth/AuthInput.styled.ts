@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Image from 'next/image';
 
 interface InputStyleProps {
-  $error: string;
+  $error: unknown;
 }
 
 export const InputBox = styled.div`

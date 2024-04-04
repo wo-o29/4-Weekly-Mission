@@ -1,3 +1,5 @@
+import AUTH_TEXT from '../constant/authText';
+
 export interface LinkType {
   id: number;
   createdAt?: string;
@@ -39,3 +41,9 @@ export interface ModalActionType {
   subTitle?: string;
   url?: string;
 }
+
+export type UserInputType = AUTH_TEXT.TYPE_EMAIL | AUTH_TEXT.TYPE_PASSWORD | AUTH_TEXT.PASSWORD_CONFIRM;
+
+export type UserInput = {
+  [key in UserInputType]: string;
+};

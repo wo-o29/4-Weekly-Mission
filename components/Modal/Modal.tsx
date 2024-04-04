@@ -5,7 +5,7 @@ import ModalFolderAdd from './ModalFolderAdd';
 import ModalTitle from './ModalTitle';
 import ModalForm from './ModalForm';
 import * as Styled from './Modal.styled';
-import modalActionScript from '../../constant/modalActionScript';
+import MODAL_ACTION_SCRIPT from '../../constant/modalActionScript';
 import { ModalActionType, CategoryType } from '../../types/type';
 
 interface ModalType {
@@ -16,14 +16,14 @@ interface ModalType {
 
 function Modal({ modalAction, setModalAction, categoryList }: ModalType) {
   const categoryListLoop: CategoryType[] = categoryList.slice(1); // 전체 카테고리는 제외
-  const isSubTitleView: boolean = modalAction.subTitle !== '' && modalAction.action !== modalActionScript.FOLDER_EDIT;
+  const isSubTitleView: boolean = modalAction.subTitle !== '' && modalAction.action !== MODAL_ACTION_SCRIPT.FOLDER_EDIT;
   const actionScript: { [key: string]: JSX.Element } = {
-    [modalActionScript.FOLDER_EDIT]: <ModalForm buttonText="변경하기" />,
-    [modalActionScript.FOLDER_ADD]: <ModalForm buttonText="추가하기" />,
-    [modalActionScript.FOLDER_SHARE]: <ModalShareList modalAction={modalAction} />,
-    [modalActionScript.FOLDER_ADD_LINK]: <ModalFolderAdd categoryListLoop={categoryListLoop} />,
-    [modalActionScript.LINK_DELETE]: <Styled.ModalButtonRed>삭제하기</Styled.ModalButtonRed>,
-    [modalActionScript.FOLDER_DELETE]: <Styled.ModalButtonRed>삭제하기</Styled.ModalButtonRed>
+    [MODAL_ACTION_SCRIPT.FOLDER_EDIT]: <ModalForm buttonText="변경하기" />,
+    [MODAL_ACTION_SCRIPT.FOLDER_ADD]: <ModalForm buttonText="추가하기" />,
+    [MODAL_ACTION_SCRIPT.FOLDER_SHARE]: <ModalShareList modalAction={modalAction} />,
+    [MODAL_ACTION_SCRIPT.FOLDER_ADD_LINK]: <ModalFolderAdd categoryListLoop={categoryListLoop} />,
+    [MODAL_ACTION_SCRIPT.LINK_DELETE]: <Styled.ModalButtonRed>삭제하기</Styled.ModalButtonRed>,
+    [MODAL_ACTION_SCRIPT.FOLDER_DELETE]: <Styled.ModalButtonRed>삭제하기</Styled.ModalButtonRed>
   };
 
   const handleModalClose = () => {

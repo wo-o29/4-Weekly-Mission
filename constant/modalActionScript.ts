@@ -1,4 +1,4 @@
-const enum modalActionScript {
+enum MODAL_ACTION_SCRIPT {
   FOLDER_EDIT = '폴더 이름 변경',
   FOLDER_ADD = '폴더 추가',
   FOLDER_SHARE = '폴더 공유',
@@ -7,4 +7,4 @@ const enum modalActionScript {
   FOLDER_DELETE = '폴더 삭제'
 }
 
-export default modalActionScript;
+export default MODAL_ACTION_SCRIPT;
