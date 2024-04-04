@@ -1,11 +1,11 @@
 import { FormEvent, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
 import { API_PATH } from '../../services/api-path';
 import * as Styled from './AuthForm.styled';
 import FETCH_API from '../../services/fetch-data';
 import AuthInput from './AuthInput';
 import setLocalstroage from '../../utils/setLocalstroage';
+import AUTH_ERROR from '../../constant/authError';
 
 interface AuthFormProps {
   isRegister: boolean;
@@ -33,6 +33,7 @@ function AuthForm({ isRegister }: AuthFormProps) {
   const passwordRef = useRef<HTMLInputElement>(null);
   const passwordConfirmRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+
   // 로그인 로직
   const login = async () => {
     try {
@@ -42,16 +43,16 @@ function AuthForm({ isRegister }: AuthFormProps) {
       };
       const response = await FETCH_API.post(API_PATH.SIGNIN, userInfo);
       if (!response.ok) {
-        throw new Error('로그인 실패 ㅇ_ㅇ!');
+        throw AUTH_ERROR.LOGIN;
       }
       const result = await response.json();
       setLocalstroage(ACCESSTOKEN, result.data.accessToken);
       router.push('/folder');
-    } catch (err) {
+    } catch (error: any) {
       setErrorMessage((prev) => ({
         ...prev,
-        [EMAIL]: '이메일을 확인해 주세요.',
-        [PASSWORD]: '비밀번호를 확인해 주세요.'
+        [EMAIL]: error[EMAIL],
+        [PASSWORD]: error[PASSWORD]
       }));
     }
   };
@@ -61,11 +62,7 @@ function AuthForm({ isRegister }: AuthFormProps) {
     if (password === passwordConfirm) {
       return;
     }
-    setErrorMessage((prev) => ({
-      ...prev,
-      [PASSWORD_CONFIRM]: '비밀번호가 일치하지 않아요.'
-    }));
-    throw new Error('비밀번호 일치 오류!');
+    throw AUTH_ERROR.PASSWORD_COMPARE;
   };
 
   // 회원가입 로직(이메일 중복 확인)
@@ -76,11 +73,7 @@ function AuthForm({ isRegister }: AuthFormProps) {
         email: emailRef.current?.value
       });
       if (!emailCheckResponse.ok) {
-        setErrorMessage((prev) => ({
-          ...prev,
-          [EMAIL]: '이미 사용 중인 이메일입니다.'
-        }));
-        throw new Error('중복된 이메일 ㅇ_ㅇ!');
+        throw AUTH_ERROR.EMAIL_DUPLICATION;
       }
       const userInfo = {
         email: emailRef.current?.value,
@@ -88,13 +81,13 @@ function AuthForm({ isRegister }: AuthFormProps) {
       };
       const registerResponse = await FETCH_API.post(API_PATH.SIGNUP, userInfo);
       if (!registerResponse.ok) {
-        throw new Error('회원가입 실패 ㅇ_ㅇ!');
+        throw AUTH_ERROR.REGISTER;
       }
       const result = await registerResponse.json();
       setLocalstroage(ACCESSTOKEN, result.data.accessToken);
       router.push('/folder');
-    } catch (err) {
-      console.error(err);
+    } catch (error: any) {
+      setErrorMessage(error);
     }
   };
 

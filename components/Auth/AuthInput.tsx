@@ -47,7 +47,7 @@ const ERROR_SCRIPT: ErrorScript = {
   },
   [PASSWORD_CONFIRM]: {
     [NO_ERROR]: '',
-    [EMPTY_VALUE]: '비밀번호를 입력해 주세요',
+    [EMPTY_VALUE]: '비밀번호 확인을 입력해 주세요',
     [VALIDATION]: '비밀번호는 영문, 숫자 조합 8자 이상 입력해 주세요'
   }
 };
