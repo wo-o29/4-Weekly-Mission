@@ -1,4 +1,4 @@
-const tempImage: string = 'https://ifh.cc/g/SlFQA2.png';
+const tempImage = 'https://ifh.cc/g/SlFQA2.png';
 
 interface ModalActionType {
   isView?: boolean;
