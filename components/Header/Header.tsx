@@ -40,8 +40,8 @@ function Header({ isSticky = true }: HeaderProps) {
           email: result.data[0].email,
           profileImg: result.data[0].image_source
         });
-      } catch (e) {
-        console.error(e);
+      } catch (error) {
+        console.error(error);
       }
     };
     userData();
