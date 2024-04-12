@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import * as Styled from './AuthInput.styled';
 import AUTH_TEXT from '../../constant/authText';
-import AUTH_VALIDATION_ERROR from '../../constant/authValidationError';
-import validateUserInput from '../../utils/validateUserInput';
 
 interface InputProps {
   type: string;
@@ -46,15 +44,7 @@ function AuthInput({ type, name, labelText, placeholder }: InputProps) {
           placeholder={placeholder}
           $error={errors[name]?.message}
           autoComplete="current-password"
-          {...register(name, {
-            required: AUTH_VALIDATION_ERROR[name][AUTH_TEXT.EMPTY_VALUE],
-            validate: (value) => {
-              if (validateUserInput(name, value)) {
-                return AUTH_VALIDATION_ERROR[name][AUTH_TEXT.VALIDATION];
-              }
-              return true;
-            }
-          })}
+          {...register(name)}
         />
         {type === AUTH_TEXT.TYPE_PASSWORD && (
           <Styled.EyeIcon
