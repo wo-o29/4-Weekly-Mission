@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import * as Styled from './Category.styled';
 import { SelectCategoryType, CategoryType } from '../../types/type';
 
@@ -34,7 +35,7 @@ interface CategoryPropsType {
   categoryList?: CategoryType[];
   selectCategory?: SelectCategoryType;
   allLinkLoad?: () => Promise<void>;
-  handleSelectCategory?: (id: number, name: string) => Promise<void>;
+  handleSelectCategory?: (id: number, name: string) => void;
   handleModalAction?: (action: string, subTitle?: string, url?: string) => void;
 }
 
@@ -56,14 +57,16 @@ function Category({
         <Styled.CategoryBox>
           {categoryList.map((category) => {
             const isSelect = selectCategory.id === category.id; // 현재 선택된 카테고리 ID와 카테고리 ID가 맞다면 true
+            const url = category.id === 0 ? '/folder' : `/folder/${category.id}`;
             return (
-              <Styled.CategoryList
-                $isSelect={isSelect}
-                key={category.id}
-                onClick={() => (category.id === 0 ? allLinkLoad() : handleSelectCategory(category.id, category.name))}
-              >
-                {category.name}
-              </Styled.CategoryList>
+              <Link href={url} key={category.id}>
+                <Styled.CategoryList
+                  $isSelect={isSelect}
+                  onClick={() => (category.id === 0 ? allLinkLoad() : handleSelectCategory(category.id, category.name))}
+                >
+                  {category.name}
+                </Styled.CategoryList>
+              </Link>
             );
           })}
         </Styled.CategoryBox>

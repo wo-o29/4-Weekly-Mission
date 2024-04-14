@@ -8,6 +8,7 @@ interface ApiPath {
   USER_FOLDER: string;
   ALL_LINK: string;
   CATEGORY_LINK: string;
+  GET_USER_INFO: string;
 }
 
 const API_PATH: ApiPath = {
@@ -18,7 +19,8 @@ const API_PATH: ApiPath = {
   SAMPLE_FOLDER: `${BASE_URL}/api/sample/folder`,
   USER_FOLDER: `${BASE_URL}/api/users/11/folders`,
   ALL_LINK: `${BASE_URL}/api/users/11/links`,
-  CATEGORY_LINK: `${BASE_URL}/api/users/11/links?folderId=`
+  CATEGORY_LINK: `${BASE_URL}/api/users/11/links?folderId=`,
+  GET_USER_INFO: `${BASE_URL}/api/users`
 };
 
 export { API_PATH };

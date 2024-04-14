@@ -8,6 +8,7 @@ import FloatingButton from '../../components/Folder/FloatingButton';
 import Modal from '../../components/Modal/Modal';
 import authCheck from '../../utils/authCheck';
 import { LinkType, CategoryType, DefaultCategoryType, ModalActionType } from '../../types/type';
+import { API_PATH } from '../../services/api-path';
 
 let prevId = 999;
 
@@ -20,6 +21,8 @@ const INITIAL_CATEGORY: DefaultCategoryType[] = [
 ];
 
 function Folder() {
+  const router = useRouter();
+  const { id } = router.query;
   const [selectCardId, setSelectCardId] = useState<number>(0);
   const [linkList, setLinkList] = useState<LinkType[]>([]); // 유저가 가지고 있는 링크
   const [categoryList, setCategoryList] = useState<CategoryType[]>(INITIAL_CATEGORY); // 유저가 가지고 있는 카테고리
@@ -29,11 +32,27 @@ function Folder() {
     subTitle: '',
     url: ''
   });
-  const router = useRouter();
 
   useEffect(() => {
     authCheck(router);
   }, []);
+
+  const idLinkLoad = async () => {
+    try {
+      const response = await fetch(API_PATH.CATEGORY_LINK + id);
+      if (!response.ok) {
+        throw new Error('카테고리 링크 로드 에러 발생');
+      }
+      const result = await response.json();
+      setLinkList(result.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    idLinkLoad();
+  }, [id]);
 
   const handleKebabClick = (id: number): void => {
     if (prevId !== id) {

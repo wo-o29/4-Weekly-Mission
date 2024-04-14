@@ -1,4 +1,5 @@
 import { useState, useEffect, FormEvent, ChangeEvent, MouseEvent, useRef } from 'react';
+import { useRouter } from 'next/router';
 import Content from '../Content/Content';
 import { API_PATH } from '../../services/api-path';
 import FETCH_API from '../../services/fetch-data';
@@ -8,6 +9,8 @@ import { LinkType, CategoryType, SelectCategoryType } from '../../types/type';
 const linkIcon = '/icon/link.svg';
 
 interface FolderContentPropsType {
+  linkList: LinkType[];
+  setLinkList: React.Dispatch<React.SetStateAction<LinkType[]>>;
   handleKebabClick: (id: number) => void;
   selectCardId: number;
   categoryList: CategoryType[];
@@ -16,18 +19,21 @@ interface FolderContentPropsType {
 }
 
 function FolderContent({
+  linkList,
+  setLinkList,
   handleKebabClick,
   selectCardId,
   categoryList,
   setCategoryList,
   handleModalAction
 }: FolderContentPropsType) {
+  const router = useRouter();
+  const { id } = router.query;
   const [selectCategory, setSelectCategory] = useState<SelectCategoryType>({
     // 현재 선택중인 카테고리
-    id: 0,
+    id: Number(id),
     name: '전체'
   });
-  const [linkList, setLinkList] = useState<LinkType[]>([]); // 유저가 가지고 있는 링크
   const [searchInputValue, setSearchInputValue] = useState<string>('');
   const linkAddElement = useRef<HTMLElement>(null);
 
@@ -67,25 +73,17 @@ function FolderContent({
   };
 
   useEffect(() => {
-    allLinkLoad();
-  }, []);
+    if (id === '0' || router.asPath === '/folder') {
+      allLinkLoad();
+    }
+  }, [id]);
 
   // 카테고리 안에 있는 링크 로드( [전체] 카테고리 이외의 카테고리 클릭시 실행)
-  const handleSelectCategory = async (id: number, name: string): Promise<void> => {
-    try {
-      const response = await fetch(API_PATH.CATEGORY_LINK + id);
-      if (!response.ok) {
-        throw new Error('카테고리 링크 로드 에러 발생');
-      }
-      const result = await response.json();
-      setLinkList(result.data);
-      setSelectCategory({
-        id,
-        name
-      });
-    } catch (error) {
-      console.error(error);
-    }
+  const handleSelectCategory = (id: number, name: string): void => {
+    setSelectCategory({
+      id,
+      name
+    });
   };
 
   const getClickArea = (e: MouseEvent<HTMLElement>): void => {

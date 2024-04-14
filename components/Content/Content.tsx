@@ -8,7 +8,7 @@ interface ContentPropsType {
   categoryList?: CategoryType[];
   selectCategory?: SelectCategoryType;
   allLinkLoad?: () => Promise<void>;
-  handleSelectCategory?: (id: number, name: string) => Promise<void>;
+  handleSelectCategory?: (id: number, name: string) => void;
   handleKebabClick?: (id: number) => void;
   selectCardId?: number;
   handleModalAction?: (action: string, subTitle?: string, url?: string) => void;
