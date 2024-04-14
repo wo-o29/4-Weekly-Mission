@@ -38,7 +38,7 @@ const RegisterSchema = z
   })
   .refine((data) => data[AUTH_TEXT.TYPE_PASSWORD] === data[AUTH_TEXT.PASSWORD_CONFIRM], {
     path: [AUTH_TEXT.PASSWORD_CONFIRM],
-    message: '비밀번호가 일치하지 않습니다.'
+    message: '비밀번호가 일치하지 않습니다!'
   });
 
 const ACCESSTOKEN = 'accessToken';
