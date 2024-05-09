@@ -1,64 +1,35 @@
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { API_PATH } from '../../services/api-path';
+import { useQuery } from '@tanstack/react-query';
+import Image from 'next/image';
 import * as Styled from './Header.styled';
+import { getUserInfo } from '../../services/userApi';
+import PAGE_PATH from '../../constant/pagePath';
+import QUERY_KEY from '../../services/queryKey';
 
 const HeaderLogoImg = '/icon/header-logo.svg';
-
-interface UserInfo {
-  loginStatus: boolean;
-  email: string;
-  profileImg: string;
-}
 
 interface HeaderProps {
   isSticky?: boolean;
 }
 
 function Header({ isSticky = true }: HeaderProps) {
-  const [userInfo, setUserInfo] = useState<UserInfo>({
-    loginStatus: false,
-    email: '',
-    profileImg: ''
+  const { data } = useQuery({
+    queryKey: QUERY_KEY.userInfo,
+    queryFn: getUserInfo,
+    staleTime: 60 * 60 * 1000,
+    gcTime: 600 * 60 * 1000
   });
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const { signal } = controller;
-    const userData = async (): Promise<void> => {
-      try {
-        const response = await fetch(API_PATH.HEADER_USER_INFO, {
-          method: 'GET',
-          signal
-        });
-        if (!response.ok) {
-          throw new Error('API 요청 에러 발생');
-        }
-        const result = await response.json();
-        setUserInfo({
-          loginStatus: true,
-          email: result.data[0].email,
-          profileImg: result.data[0].image_source
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    userData();
-    // 중복 처리
-    return () => controller.abort();
-  }, []);
 
   return (
     <Styled.Header $isSticky={isSticky}>
       <Styled.Nav>
-        <Link href="/">
-          <img src={HeaderLogoImg} alt="헤더 로고 이미지" />
+        <Link href={PAGE_PATH.main}>
+          <Image width="133" height="24" src={HeaderLogoImg} alt="롤링 로고 이미지" />
         </Link>
-        {userInfo.loginStatus ? (
+        {data ? (
           <Styled.UserInfoBox>
-            <Styled.UserImage width={28} height={28} src={userInfo.profileImg} alt="헤더 유저 이미지" />
-            <Styled.UserEmail>{userInfo.email}</Styled.UserEmail>
+            <Styled.UserImage width={28} height={28} src={data?.image_source} alt="유저 프로필 이미지" />
+            <Styled.UserEmail>{data?.email}</Styled.UserEmail>
           </Styled.UserInfoBox>
         ) : (
           <Styled.LoginButton href="/signin">로그인</Styled.LoginButton>

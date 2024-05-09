@@ -1,4 +1,4 @@
-import { API_PATH } from './api-path';
+import { API_PATH } from './apiPath';
 import api from './axios';
 import { userInfoType } from '../types/type';
 

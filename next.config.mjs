@@ -5,7 +5,12 @@ const nextConfig = {
     styledComponents: true
   },
   images: {
-    domains: ['codeit-images.codeit.com']
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**'
+      }
+    ]
   }
 };
 

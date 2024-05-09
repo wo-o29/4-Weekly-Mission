@@ -52,3 +52,19 @@ export type userInfoType = {
   email: string;
   password: string;
 };
+
+export interface TFolderInfo {
+  id: number;
+  created_at: string;
+  favorite: boolean;
+  name: string;
+  user_id: number;
+}
+
+export interface TFolderOwnerInfo {
+  id: number;
+  created_at: string;
+  name: string;
+  email: string;
+  image_source: string;
+}

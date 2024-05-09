@@ -1,8 +1,8 @@
 import { useState, useEffect, FormEvent, ChangeEvent, MouseEvent, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Content from '../Content/Content';
-import { API_PATH } from '../../services/api-path';
-import FETCH_API from '../../services/fetch-data';
+import { API_PATH } from '../../services/apiPath';
+import api from '../../services/axios';
 import * as Styled from './Folder.styled';
 import { LinkType, CategoryType, SelectCategoryType } from '../../types/type';
 
@@ -41,12 +41,12 @@ function FolderContent({
   useEffect(() => {
     const userCategoryLoad = async (): Promise<void> => {
       try {
-        const response = await FETCH_API.get(API_PATH.USER_FOLDER);
-        if (!response.ok) {
-          throw new Error('카테고리 로드 에러 발생');
-        }
-        const result = await response.json();
-        setCategoryList([...categoryList, ...result.data]);
+        const response = await api.get(API_PATH.USER_FOLDER);
+        // if (!response.ok) {
+        //   throw new Error('카테고리 로드 에러 발생');
+        // }
+        // const result = await response.json();
+        // setCategoryList([...categoryList, ...result.data]);
       } catch (error) {
         console.error(error);
       }

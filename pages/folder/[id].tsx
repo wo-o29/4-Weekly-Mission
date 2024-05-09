@@ -8,7 +8,7 @@ import FloatingButton from '../../components/Folder/FloatingButton';
 import Modal from '../../components/Modal/Modal';
 import authCheck from '../../utils/authCheck';
 import { LinkType, CategoryType, DefaultCategoryType, ModalActionType } from '../../types/type';
-import { API_PATH } from '../../services/api-path';
+import { API_PATH } from '../../services/apiPath';
 
 let prevId = 999;
 
