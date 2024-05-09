@@ -45,7 +45,7 @@ function Content({
       currentAllLink.current = linkList;
     }
   }, [linkList]);
-  console.log('A');
+
   const handleSearchValue = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
