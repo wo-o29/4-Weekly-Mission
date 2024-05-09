@@ -74,7 +74,8 @@
     "operator-linebreak": "off",
     "camelcase": "off",
     "no-shadow": "off",
-    "@typescript-eslint/no-shadow": "warn"
+    "@typescript-eslint/no-shadow": "warn",
+    "no-param-reassign": "off"
   },
   "settings": {
     "import/resolver": {
