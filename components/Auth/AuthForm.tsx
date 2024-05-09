@@ -1,15 +1,16 @@
 import { useRouter } from 'next/router';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { API_PATH } from '../../services/api-path';
+import { useMutation } from '@tanstack/react-query';
 import * as Styled from './AuthForm.styled';
-import FETCH_API from '../../services/fetch-data';
 import AuthInput from './AuthInput';
-import setLocalstroage from '../../utils/setLocalstroage';
+import localstorageControl from '../../utils/localstorageControl';
 import AUTH_ERROR from '../../constant/authError';
 import AUTH_TEXT from '../../constant/authText';
-import { UserInput, UserInputType } from '../../types/type';
+import { userInfoType, UserInputs, UserInputType } from '../../types/type';
 import { LoginSchema, RegisterSchema } from '../../constant/schema';
+import { login, register } from '../../services/authApi';
+import PAGE_PATH from '../../constant/pagePath';
 
 interface AuthFormProps {
   isRegister: boolean;
@@ -19,65 +20,53 @@ const ACCESS_TOKEN = 'accessToken';
 
 function AuthForm({ isRegister }: AuthFormProps) {
   const router = useRouter();
-  const methods = useForm<UserInput>({
+  const methods = useForm<UserInputs>({
     mode: 'onBlur',
     resolver: zodResolver(isRegister ? RegisterSchema : LoginSchema)
   });
 
-  const setFieldError = (fieldName: UserInputType, errorMessage: string) => {
-    methods.setError(fieldName, {
-      type: 'error',
-      message: errorMessage
+  const setFieldError = (errorInfo: UserInputs): void => {
+    Object.entries(errorInfo).forEach((info) => {
+      const [key, value] = info;
+      methods.setError(key as UserInputType, {
+        type: 'error',
+        message: value
+      });
     });
   };
 
-  // 로그인 로직
-  const login = async (userInput: UserInput) => {
-    try {
-      const response = await FETCH_API.post(API_PATH.SIGNIN, userInput);
-      if (!response.ok) {
-        throw AUTH_ERROR.LOGIN;
-      }
-      const result = await response.json();
-      setLocalstroage(ACCESS_TOKEN, result.data.accessToken);
-      router.push('/folder');
-    } catch (error: any) {
-      setFieldError(AUTH_TEXT.TYPE_EMAIL, error[AUTH_TEXT.EMAIL]);
-      setFieldError(AUTH_TEXT.TYPE_PASSWORD, error[AUTH_TEXT.PASSWORD]);
-    }
-  };
+  const authMutation = useMutation({
+    mutationFn: (userInfo: userInfoType) => (isRegister ? register(userInfo) : login(userInfo))
+  });
 
-  // 회원가입 로직(이메일 중복 확인)
-  const register = async (userInput: UserInput) => {
-    try {
-      const emailCheckResponse = await FETCH_API.post(API_PATH.CHECK_EMAIL, {
-        email: userInput.email
-      });
-      if (!emailCheckResponse.ok) {
-        throw AUTH_ERROR.EMAIL_DUPLICATION;
-      }
+  const onSubmit = (userInput: UserInputs): void => {
+    const userInfo = {
+      email: userInput.email,
+      password: userInput.password
+    };
 
-      const registerResponse = await FETCH_API.post(API_PATH.SIGNUP, userInput);
-      if (!registerResponse.ok) {
-        throw AUTH_ERROR.REGISTER;
-      }
-      const result = await registerResponse.json();
-      setLocalstroage(ACCESS_TOKEN, result.data.accessToken);
-      router.push('/folder');
-    } catch (error: any) {
-      setFieldError(AUTH_TEXT.TYPE_EMAIL, error[AUTH_TEXT.EMAIL]);
-      setFieldError(AUTH_TEXT.TYPE_PASSWORD, error[AUTH_TEXT.PASSWORD]);
-      setFieldError(AUTH_TEXT.PASSWORD_CONFIRM, error[AUTH_TEXT.PASSWORD_CONFIRM]);
-    }
-  };
+    authMutation.mutate(userInfo, {
+      onSuccess: (data) => {
+        localstorageControl('set', ACCESS_TOKEN, data.accessToken);
+        router.push(PAGE_PATH.folder);
+      },
+      onError: (error: any) => {
+        if (error.response.status === 409) {
+          // 이메일 중복 확인 에러
+          setFieldError(AUTH_ERROR.EMAIL_DUPLICATION);
+        }
+        if (error.response.status === 400) {
+          if (error.response.data.message === 'Invalid login credentials') {
+            // 로그인 에러
+            setFieldError(AUTH_ERROR.LOGIN);
+            return;
+          }
 
-  const onSubmit = (userInput: UserInput) => {
-    if (isRegister) {
-      // isRegister => true일 경우 회원가입, false인 경우 로그인
-      register(userInput);
-      return;
-    }
-    login(userInput);
+          // 회원가입 에러
+          setFieldError(AUTH_ERROR.REGISTER);
+        }
+      }
+    });
   };
 
   return (

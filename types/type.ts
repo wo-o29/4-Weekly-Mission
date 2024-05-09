@@ -44,6 +44,11 @@ export interface ModalActionType {
 
 export type UserInputType = AUTH_TEXT.TYPE_EMAIL | AUTH_TEXT.TYPE_PASSWORD | AUTH_TEXT.PASSWORD_CONFIRM;
 
-export type UserInput = {
+export type UserInputs = {
   [key in UserInputType]: string;
+};
+
+export type userInfoType = {
+  email: string;
+  password: string;
 };

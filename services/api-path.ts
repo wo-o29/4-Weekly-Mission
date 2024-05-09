@@ -1,4 +1,3 @@
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 interface ApiPath {
   SIGNIN: string;
   SIGNUP: string;
@@ -12,15 +11,15 @@ interface ApiPath {
 }
 
 const API_PATH: ApiPath = {
-  SIGNIN: `${BASE_URL}/api/sign-in`,
-  SIGNUP: `${BASE_URL}/api/sign-up`,
-  CHECK_EMAIL: `${BASE_URL}/api/check-email`,
-  HEADER_USER_INFO: `${BASE_URL}/api/users/1`,
-  SAMPLE_FOLDER: `${BASE_URL}/api/sample/folder`,
-  USER_FOLDER: `${BASE_URL}/api/users/11/folders`,
-  ALL_LINK: `${BASE_URL}/api/users/11/links`,
-  CATEGORY_LINK: `${BASE_URL}/api/users/11/links?folderId=`,
-  GET_USER_INFO: `${BASE_URL}/api/users`
+  SIGNIN: '/auth/sign-in',
+  SIGNUP: '/auth/sign-up',
+  CHECK_EMAIL: '/users/check-email',
+  HEADER_USER_INFO: '/api/users/1',
+  SAMPLE_FOLDER: '/api/sample/folder',
+  USER_FOLDER: '/api/users/11/folders',
+  ALL_LINK: '/api/users/11/links',
+  CATEGORY_LINK: '/api/users/11/links?folderId=',
+  GET_USER_INFO: '/api/users'
 };
 
 export { API_PATH };

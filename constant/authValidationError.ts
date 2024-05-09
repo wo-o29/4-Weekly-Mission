@@ -19,6 +19,6 @@ const AUTH_VALIDATION_ERROR: ErrorScript = {
     [AUTH_TEXT.EMPTY_VALUE]: '비밀번호 확인을 입력해 주세요',
     [AUTH_TEXT.VALIDATION]: '비밀번호는 영문, 숫자 조합 8자 이상 입력해 주세요'
   }
-};
+} as const;
 
 export default AUTH_VALIDATION_ERROR;
