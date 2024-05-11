@@ -4,7 +4,7 @@ import Image from 'next/image';
 import * as Styled from './Header.styled';
 import { getUserInfo } from '../../services/userApi';
 import PAGE_PATH from '../../constant/pagePath';
-import QUERY_KEY from '../../services/queryKey';
+import { userKey } from '../../services/queryKey';
 
 const HeaderLogoImg = '/icon/header-logo.svg';
 
@@ -14,7 +14,7 @@ interface HeaderProps {
 
 function Header({ isSticky = true }: HeaderProps) {
   const { data } = useQuery({
-    queryKey: QUERY_KEY.userInfo,
+    queryKey: userKey.userInfo,
     queryFn: getUserInfo,
     staleTime: 60 * 60 * 1000,
     gcTime: 600 * 60 * 1000
@@ -24,7 +24,7 @@ function Header({ isSticky = true }: HeaderProps) {
     <Styled.Header $isSticky={isSticky}>
       <Styled.Nav>
         <Link href={PAGE_PATH.main}>
-          <Image width="133" height="24" src={HeaderLogoImg} alt="롤링 로고 이미지" />
+          <Image width="133" height="24" src={HeaderLogoImg} alt="롤링 로고 이미지" priority />
         </Link>
         {data ? (
           <Styled.UserInfoBox>

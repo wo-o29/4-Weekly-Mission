@@ -8,8 +8,8 @@ import Footer from '../../components/Footer/Footer';
 import * as Styled from '../../styles/Share.styled';
 import { LinkType } from '../../types/type';
 import authCheck from '../../utils/authCheck';
-import { getFolderOwnerInfo, getFolderInfo, getLinkList } from '../../services/userApi';
-import QUERY_KEY from '../../services/queryKey';
+import { getFolderOwnerInfo, getFolderInfo, getLinkList } from '../../services/shareApi';
+import { folderKey } from '../../services/queryKey';
 
 function Share() {
   const [_, setLinkList] = useState<LinkType[]>([]);
@@ -17,26 +17,26 @@ function Share() {
   const { id } = router.query;
 
   const { data: folderInfo } = useQuery({
-    queryKey: QUERY_KEY.folderInfo(id),
+    queryKey: folderKey.folderInfo(id),
     queryFn: ({ queryKey }) => getFolderInfo(queryKey[1]),
-    staleTime: 5 * 60 * 1000,
-    gcTime: 1 * 60 * 1000,
+    staleTime: 1 * 60 * 1000,
+    gcTime: 5 * 60 * 1000,
     enabled: !!id
   });
 
   const { data: folderOwnerInfo } = useQuery({
-    queryKey: QUERY_KEY.folderOwnerInfo(folderInfo?.user_id),
+    queryKey: folderKey.folderOwnerInfo(folderInfo?.user_id),
     queryFn: ({ queryKey }) => getFolderOwnerInfo(queryKey[1]),
-    staleTime: 5 * 60 * 1000,
-    gcTime: 1 * 60 * 1000,
+    staleTime: 1 * 60 * 1000,
+    gcTime: 5 * 60 * 1000,
     enabled: !!folderInfo?.user_id
   });
 
   const { data: linkList } = useQuery({
-    queryKey: QUERY_KEY.linkList(id),
+    queryKey: folderKey.linkList(id),
     queryFn: ({ queryKey }) => getLinkList(queryKey[1]),
-    staleTime: 5 * 60 * 1000,
-    gcTime: 1 * 60 * 1000,
+    staleTime: 1 * 60 * 1000,
+    gcTime: 5 * 60 * 1000,
     enabled: !!id
   });
 

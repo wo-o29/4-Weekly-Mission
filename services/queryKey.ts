@@ -1,8 +1,9 @@
-const QUERY_KEY = {
-  userInfo: ['userInfo'],
-  folderOwnerInfo: (userId: number) => ['folderOwnerInfo', userId],
-  folderInfo: (id: any) => ['folderInfo', id],
-  linkList: (id: any) => ['linkList', id]
+export const folderKey = {
+  folderOwnerInfo: (userId: number) => ['folderOwnerInfo', userId] as const,
+  folderInfo: (id: any) => ['folderInfo', id] as const,
+  linkList: (id: any) => ['linkList', id] as const
 };
 
-export default QUERY_KEY;
+export const userKey = {
+  userInfo: ['userInfo'] as const
+};

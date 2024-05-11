@@ -4,13 +4,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import * as Styled from './AuthForm.styled';
 import AuthInput from './AuthInput';
-import localstorageControl from '../../utils/localstorageControl';
 import AUTH_ERROR from '../../constant/authError';
 import AUTH_TEXT from '../../constant/authText';
 import { userInfoType, UserInputs, UserInputType } from '../../types/type';
 import { LoginSchema, RegisterSchema } from '../../constant/schema';
 import { login, register } from '../../services/authApi';
 import PAGE_PATH from '../../constant/pagePath';
+import { setCookie } from '../../services/cookie';
 
 interface AuthFormProps {
   isRegister: boolean;
@@ -47,7 +47,9 @@ function AuthForm({ isRegister }: AuthFormProps) {
 
     authMutation.mutate(userInfo, {
       onSuccess: (data) => {
-        localstorageControl('set', ACCESS_TOKEN, data.accessToken);
+        setCookie(ACCESS_TOKEN, data.accessToken, {
+          'max-age': 43200 // 24시간
+        });
         router.push(PAGE_PATH.folder);
       },
       onError: (error: any) => {
