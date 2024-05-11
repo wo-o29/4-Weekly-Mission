@@ -1,8 +1,6 @@
 import { useState, useEffect, FormEvent, ChangeEvent, MouseEvent, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Content from '../Content/Content';
-import { API_PATH } from '../../services/apiPath';
-import api from '../../services/axios';
 import * as Styled from './Folder.styled';
 import { LinkType, CategoryType, SelectCategoryType } from '../../types/type';
 
@@ -10,78 +8,32 @@ const linkIcon = '/icon/link.svg';
 
 interface FolderContentPropsType {
   linkList: LinkType[];
-  setLinkList: React.Dispatch<React.SetStateAction<LinkType[]>>;
   handleKebabClick: (id: number) => void;
   selectCardId: number;
   categoryList: CategoryType[];
-  setCategoryList: (category: CategoryType[]) => void;
   handleModalAction: (action: string, subTitle?: string, url?: string) => void;
 }
 
 function FolderContent({
   linkList,
-  setLinkList,
   handleKebabClick,
   selectCardId,
   categoryList,
-  setCategoryList,
   handleModalAction
 }: FolderContentPropsType) {
   const router = useRouter();
   const { id } = router.query;
   const [selectCategory, setSelectCategory] = useState<SelectCategoryType>({
     // 현재 선택중인 카테고리
-    id: Number(id),
+    id: Number(id) || 0,
     name: '전체'
   });
   const [searchInputValue, setSearchInputValue] = useState<string>('');
   const linkAddElement = useRef<HTMLElement>(null);
 
-  // 유저가 가지고 있는 카테고리 로드(데이터 통신, 첫 렌더링 시에만 실행)
-  useEffect(() => {
-    const userCategoryLoad = async (): Promise<void> => {
-      try {
-        const response = await api.get(API_PATH.USER_FOLDER);
-        // if (!response.ok) {
-        //   throw new Error('카테고리 로드 에러 발생');
-        // }
-        // const result = await response.json();
-        // setCategoryList([...categoryList, ...result.data]);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    userCategoryLoad();
-  }, []);
-
-  // 유저가 가지고 있는 전체 링크 로드(데이터 통신, 첫 렌더링 시에 실행, 전체 카테고리 클릭시 실행)
-  const allLinkLoad = async (): Promise<void> => {
-    try {
-      const response = await fetch(API_PATH.ALL_LINK);
-      if (!response.ok) {
-        throw new Error('전체 링크 로드 에러 발생');
-      }
-      const result = await response.json();
-      setLinkList(result.data);
-      setSelectCategory({
-        id: 0,
-        name: '전체'
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    if (id === '0' || router.asPath === '/folder') {
-      allLinkLoad();
-    }
-  }, [id]);
-
-  // 카테고리 안에 있는 링크 로드( [전체] 카테고리 이외의 카테고리 클릭시 실행)
-  const handleSelectCategory = (id: number, name: string): void => {
+  const handleSelectCategory = (categoryId: number, name: string): void => {
     setSelectCategory({
-      id,
+      id: categoryId,
       name
     });
   };
@@ -127,14 +79,12 @@ function FolderContent({
   const contentProps = {
     categoryList,
     selectCategory,
-    allLinkLoad,
     handleSelectCategory,
     handleKebabClick,
     selectCardId,
     linkList,
     option: true,
-    handleModalAction,
-    setLinkList
+    handleModalAction
   };
 
   return (

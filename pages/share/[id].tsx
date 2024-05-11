@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Head from 'next/head';
 import { useQuery } from '@tanstack/react-query';
 import Header from '../../components/Header/Header';
@@ -7,17 +7,15 @@ import Content from '../../components/Content/Content';
 import Footer from '../../components/Footer/Footer';
 import * as Styled from '../../styles/Share.styled';
 import { LinkType } from '../../types/type';
-import authCheck from '../../utils/authCheck';
 import { getFolderOwnerInfo, getFolderInfo, getLinkList } from '../../services/shareApi';
-import { folderKey } from '../../services/queryKey';
+import { shareKey } from '../../services/queryKey';
 
 function Share() {
-  const [_, setLinkList] = useState<LinkType[]>([]);
   const router = useRouter();
   const { id } = router.query;
 
   const { data: folderInfo } = useQuery({
-    queryKey: folderKey.folderInfo(id),
+    queryKey: shareKey.folderInfo(id),
     queryFn: ({ queryKey }) => getFolderInfo(queryKey[1]),
     staleTime: 1 * 60 * 1000,
     gcTime: 5 * 60 * 1000,
@@ -25,7 +23,7 @@ function Share() {
   });
 
   const { data: folderOwnerInfo } = useQuery({
-    queryKey: folderKey.folderOwnerInfo(folderInfo?.user_id),
+    queryKey: shareKey.folderOwnerInfo(folderInfo?.user_id),
     queryFn: ({ queryKey }) => getFolderOwnerInfo(queryKey[1]),
     staleTime: 1 * 60 * 1000,
     gcTime: 5 * 60 * 1000,
@@ -33,16 +31,12 @@ function Share() {
   });
 
   const { data: linkList } = useQuery({
-    queryKey: folderKey.linkList(id),
+    queryKey: shareKey.linkList(id),
     queryFn: ({ queryKey }) => getLinkList(queryKey[1]),
     staleTime: 1 * 60 * 1000,
     gcTime: 5 * 60 * 1000,
     enabled: !!id
   });
-
-  useEffect(() => {
-    authCheck(router);
-  }, []);
 
   return (
     <>
@@ -58,7 +52,7 @@ function Share() {
             <Styled.ProfileBookmark>{folderInfo?.name}</Styled.ProfileBookmark>
           </Styled.ProfileBox>
         </Styled.Profile>
-        <Content linkList={linkList} option={false} setLinkList={setLinkList} />
+        <Content linkList={linkList} option={false} />
       </Styled.Share>
       <Footer />
     </>

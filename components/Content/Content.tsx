@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, useEffect, SetStateAction, Dispatch, useRef } from 'react';
+import { ChangeEvent, useState, useEffect } from 'react';
 import CardList from '../Card/CardList';
 import Category from '../Category/Category';
 import * as Styled from './Content.styled';
@@ -14,27 +14,23 @@ interface ContentPropsType {
   handleModalAction?: (action: string, subTitle?: string, url?: string) => void;
   linkList: LinkType[];
   option: boolean;
-  setLinkList: Dispatch<SetStateAction<LinkType[]>>;
 }
 
 function Content({
   categoryList,
   selectCategory,
-  allLinkLoad,
   handleSelectCategory,
   handleKebabClick,
   selectCardId,
   linkList,
   option,
-  handleModalAction,
-  setLinkList
+  handleModalAction
 }: ContentPropsType) {
   const [searchValue, setSearchValue] = useState<string>('');
-  const currentAllLink = useRef<LinkType[]>([]);
+  const [searchResultList, setSearchResultList] = useState<LinkType[]>([]);
   const categoryProps = {
     categoryList,
     selectCategory,
-    allLinkLoad,
     handleSelectCategory,
     handleModalAction
   };
@@ -42,7 +38,7 @@ function Content({
   useEffect(() => {
     if (!searchValue && linkList) {
       // 인풋 값이 없고, 링크가 있을 때 실행
-      currentAllLink.current = linkList;
+      setSearchResultList(linkList);
     }
   }, [linkList]);
 
@@ -51,17 +47,19 @@ function Content({
   };
 
   const handleSearchChange = (value: string): void => {
-    if (!searchValue) {
-      setLinkList(currentAllLink.current);
-      return;
+    if (linkList) {
+      if (!searchValue) {
+        setSearchResultList(linkList);
+        return;
+      }
+      const lowerSearchValue = value.toLocaleLowerCase();
+      const searchResult = linkList?.filter(
+        (list) =>
+          list.title?.toLowerCase().includes(lowerSearchValue) ||
+          list.description?.toLowerCase().includes(lowerSearchValue)
+      );
+      setSearchResultList(searchResult);
     }
-    const lowerSearchValue = value.toLocaleLowerCase();
-    const searchResult = currentAllLink.current?.filter(
-      (list) =>
-        list.title?.toLowerCase().includes(lowerSearchValue) ||
-        list.description?.toLowerCase().includes(lowerSearchValue)
-    );
-    setLinkList(searchResult);
   };
 
   useEffect(() => {
@@ -80,7 +78,7 @@ function Content({
         <Styled.Label htmlFor="content--search">링크 검색</Styled.Label>
         <Styled.SearchInput
           value={searchValue}
-          onChange={(e) => handleSearchValue(e)}
+          onChange={handleSearchValue}
           id="content--search"
           type="search"
           placeholder="🔍  링크를 검색해 보세요."
@@ -88,14 +86,14 @@ function Content({
       </form>
       {searchValue && (
         <Styled.SearchResult>
-          <Styled.SearchValue>{searchValue}</Styled.SearchValue>로 검색한 결과입니다.
+          <Styled.SearchValue>{searchValue}</Styled.SearchValue>으로 검색한 결과입니다.
         </Styled.SearchResult>
       )}
       {option && <Category {...categoryProps} />}
       <CardList
         handleKebabClick={handleKebabClick}
         selectCardId={selectCardId}
-        linkList={linkList}
+        linkList={searchResultList}
         option={option}
         handleModalAction={handleModalAction}
       />

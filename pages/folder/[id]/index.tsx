@@ -1,18 +1,29 @@
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Head from 'next/head';
 import { useQuery } from '@tanstack/react-query';
-import Header from '../../components/Header/Header';
-import FolderContent from '../../components/Folder/FolderContent';
-import Footer from '../../components/Footer/Footer';
-import FloatingButton from '../../components/Folder/FloatingButton';
-import Modal from '../../components/Modal/Modal';
-import { LinkType, CategoryType, ModalActionType } from '../../types/type';
-import { userCategoryLoad, allLinkLoad } from '../../services/folderApi';
-import { folderKey } from '../../services/queryKey';
+import Header from '../../../components/Header/Header';
+import FolderContent from '../../../components/Folder/FolderContent';
+import Footer from '../../../components/Footer/Footer';
+import FloatingButton from '../../../components/Folder/FloatingButton';
+import Modal from '../../../components/Modal/Modal';
+import { LinkType, CategoryType, DefaultCategoryType, ModalActionType } from '../../../types/type';
+import { selectLinkLoad, userCategoryLoad } from '../../../services/folderApi';
+import { folderKey } from '../../../services/queryKey';
 
 let prevId = 999;
 
+const INITIAL_CATEGORY: DefaultCategoryType[] = [
+  {
+    id: 0,
+    name: '전체',
+    link: { count: 0 }
+  }
+];
+
 function Folder() {
+  const router = useRouter();
+  const { id } = router.query;
   const [selectCardId, setSelectCardId] = useState<number>(0);
   const [modalAction, setModalAction] = useState<ModalActionType>({
     isView: false,
@@ -29,16 +40,17 @@ function Folder() {
   });
 
   const { data: linkList } = useQuery({
-    queryKey: folderKey.allLink,
-    queryFn: allLinkLoad,
+    queryKey: folderKey.selectLinkLoad(id),
+    queryFn: () => selectLinkLoad(Number(id)),
+    enabled: !!id,
     staleTime: 1 * 60 * 1000,
     gcTime: 5 * 60 * 1000
   });
 
-  const handleKebabClick = (id: number): void => {
-    if (prevId !== id) {
-      setSelectCardId(id);
-      prevId = id;
+  const handleKebabClick = (cardId: number): void => {
+    if (prevId !== cardId) {
+      setSelectCardId(cardId);
+      prevId = cardId;
       return;
     }
     setSelectCardId(0);

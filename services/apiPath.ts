@@ -16,10 +16,10 @@ const API_PATH: ApiPath = {
   CHECK_EMAIL: '/users/check-email',
   HEADER_USER_INFO: '/api/users/1',
   GET_FOLDER_OWNER_INFO: '/users/',
-  FOLDER: '/folders/',
-  ALL_LINK: '/api/users/11/links',
+  FOLDER: '/folders',
+  ALL_LINK: '/links',
   CATEGORY_LINK: '/api/users/11/links?folderId=',
   GET_USER_INFO: '/users'
-};
+} as const;
 
 export { API_PATH };

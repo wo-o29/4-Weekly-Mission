@@ -15,4 +15,9 @@ export const Button = styled.button`
   font-weight: 600;
   color: var(--Grey-Light);
   margin-top: 1.68rem;
+
+  &:disabled {
+    background: var(--gray20);
+    color: var(--black);
+  }
 `;

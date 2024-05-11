@@ -94,7 +94,9 @@ function AuthForm({ isRegister }: AuthFormProps) {
             placeholder="비밀번호와 일치하는 값을 입력해 주세요"
           />
         )}
-        <Styled.Button type="submit">{isRegister ? '회원가입' : '로그인'}</Styled.Button>
+        <Styled.Button disabled={authMutation.isPending} type="submit">
+          {isRegister ? '회원가입' : '로그인'}
+        </Styled.Button>
       </Styled.Form>
     </FormProvider>
   );

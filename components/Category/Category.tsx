@@ -39,14 +39,8 @@ interface CategoryPropsType {
   handleModalAction?: (action: string, subTitle?: string, url?: string) => void;
 }
 
-function Category({
-  categoryList,
-  selectCategory,
-  allLinkLoad,
-  handleSelectCategory,
-  handleModalAction
-}: CategoryPropsType) {
-  if (!categoryList || !selectCategory || !allLinkLoad || !handleSelectCategory || !handleModalAction) {
+function Category({ categoryList, selectCategory, handleSelectCategory, handleModalAction }: CategoryPropsType) {
+  if (!categoryList || !selectCategory || !handleSelectCategory || !handleModalAction) {
     return null;
   }
 
@@ -62,7 +56,7 @@ function Category({
               <Link href={url} key={category.id}>
                 <Styled.CategoryList
                   $isSelect={isSelect}
-                  onClick={() => (category.id === 0 ? allLinkLoad() : handleSelectCategory(category.id, category.name))}
+                  onClick={() => handleSelectCategory(category.id, category.name)}
                 >
                   {category.name}
                 </Styled.CategoryList>
