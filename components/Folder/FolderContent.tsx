@@ -25,11 +25,10 @@ function FolderContent({
   const { id } = router.query;
   const [selectCategory, setSelectCategory] = useState<SelectCategoryType>({
     // 현재 선택중인 카테고리
-    id: Number(id) || 0,
+    id: 0,
     name: '전체'
   });
   const [searchInputValue, setSearchInputValue] = useState<string>('');
-  const linkAddElement = useRef<HTMLElement>(null);
 
   const handleSelectCategory = (categoryId: number, name: string): void => {
     setSelectCategory({
@@ -58,25 +57,6 @@ function FolderContent({
     setSearchInputValue(e.target.value);
   };
 
-  const checkScrollY = () => {
-    if (linkAddElement.current) {
-      if (window.scrollY > 144) {
-        linkAddElement.current.style.position = 'fixed';
-        linkAddElement.current.style.bottom = '0px';
-        linkAddElement.current.style.padding = '1rem 0';
-        return;
-      }
-      linkAddElement.current.style.position = 'static';
-      linkAddElement.current.style.padding = '3rem 0';
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', checkScrollY);
-
-    return () => window.removeEventListener('scroll', checkScrollY);
-  }, []);
-
   const contentProps = {
     categoryList,
     selectCategory,
@@ -90,7 +70,7 @@ function FolderContent({
 
   return (
     <Styled.Folder onClick={(e) => getClickArea(e)}>
-      <Styled.Link ref={linkAddElement}>
+      <Styled.Link>
         <Styled.LinkBox>
           <form onSubmit={handleSearchFromSumbit}>
             <Styled.Label htmlFor="link--add">링크 추가</Styled.Label>

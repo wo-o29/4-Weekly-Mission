@@ -15,11 +15,8 @@ export interface CategoryType {
   created_at?: string;
   favorite?: boolean;
   id: number;
-  link: {
-    count: number;
-  };
+  link_count: number;
   name: string;
-  user_id?: number;
 }
 
 export interface DefaultCategoryType {
@@ -40,6 +37,7 @@ export interface ModalActionType {
   action: string;
   subTitle?: string;
   url?: string;
+  id?: number;
 }
 
 export type UserInputType = AUTH_TEXT.TYPE_EMAIL | AUTH_TEXT.TYPE_PASSWORD | AUTH_TEXT.PASSWORD_CONFIRM;

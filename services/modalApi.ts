@@ -27,7 +27,24 @@ export const deleteLink = async (id: number): Promise<any> => {
 export const deleteFolder = async (id: number): Promise<any> => {
   try {
     const response = await api.delete(`${API_PATH.FOLDER}/${id}`);
-    console.log(response);
+    return response.data;
+  } catch (error) {
+    return console.error(error);
+  }
+};
+
+export const renameFolder = async (id: number, name: string): Promise<any> => {
+  try {
+    const response = await api.put(`${API_PATH.FOLDER}/${id}`, { name });
+    return response.data;
+  } catch (error) {
+    return console.error(error);
+  }
+};
+
+export const addFolder = async (name: string): Promise<any> => {
+  try {
+    const response = await api.post(API_PATH.FOLDER, { name });
     return response.data;
   } catch (error) {
     return console.error(error);

@@ -20,7 +20,7 @@ function CardList({ handleKebabClick, selectCardId, linkList, option, handleModa
   const handleKebabModalAction = (action: string, subTitle: string, e: MouseEvent<HTMLLIElement>, id: number) => {
     if (handleModalAction) {
       e.preventDefault();
-      handleModalAction(action, subTitle, undefined, id);
+      handleModalAction(action, subTitle, subTitle, id);
     }
   };
 

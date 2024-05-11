@@ -31,7 +31,11 @@ function Folder() {
     gcTime: 5 * 60 * 1000
   });
 
-  const { data: linkList, refetch } = useQuery({
+  const {
+    data: linkList,
+    refetch,
+    isLoading
+  } = useQuery({
     queryKey: folderKey.selectLinkLoad(id),
     queryFn: () => selectLinkLoad(Number(id)),
     enabled: !!id,

@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import * as Styled from './Category.styled';
 import { SelectCategoryType, CategoryType } from '../../types/type';
@@ -37,7 +36,7 @@ interface CategoryPropsType {
   categoryList?: CategoryType[];
   selectCategory?: SelectCategoryType;
   handleSelectCategory?: (id: number, name: string) => void;
-  handleModalAction?: (action: string, subTitle?: string, url?: string) => void;
+  handleModalAction?: (action: string, subTitle?: string, url?: string, id?: number) => void;
 }
 
 function Category({ categoryList, selectCategory, handleSelectCategory, handleModalAction }: CategoryPropsType) {
@@ -55,9 +54,10 @@ function Category({ categoryList, selectCategory, handleSelectCategory, handleMo
           {categoryList.map((category) => {
             const isSelect = selectCategory.id === category.id; // 현재 선택된 카테고리 ID와 카테고리 ID가 맞다면 true
             const url = category.id === 0 ? '/folder' : `/folder/${category.id}`;
-            if (id && +id === category.id && selectCategory.id !== +id && selectCategory.id !== 0) {
+            if (id && +id === category.id && selectCategory.id !== +id) {
               handleSelectCategory(+id, category.name);
             }
+
             return (
               <Link href={url} key={category.id}>
                 <Styled.CategoryList
@@ -85,7 +85,7 @@ function Category({ categoryList, selectCategory, handleSelectCategory, handleMo
                 key={idx}
                 onClick={() => {
                   const url = `${window.location.origin}/shared/${selectCategory.id}`;
-                  handleModalAction(list.actionText, selectCategory.name, url);
+                  handleModalAction(list.actionText, selectCategory.name, url, selectCategory.id);
                 }}
               >
                 <Styled.CategoryControlImg width={18} height={18} src={list.img} alt={`${list.text} 이미지`} />

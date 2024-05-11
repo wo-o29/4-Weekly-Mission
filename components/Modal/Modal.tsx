@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
 import ModalCloseButton from './ModalCloseIcon';
 import ModalShareList from './ModalShareList';
 import ModalFolderAdd from './ModalFolderAdd';
@@ -20,9 +21,11 @@ interface ModalType {
 
 function Modal({ modalAction, setModalAction, categoryList, refetch }: ModalType) {
   const queryClient = useQueryClient();
+  const router = useRouter();
   const categoryListLoop: CategoryType[] = categoryList.slice(1); // 전체 카테고리는 제외
   const isSubTitleView: boolean = modalAction.subTitle !== '' && modalAction.action !== MODAL_ACTION_SCRIPT.FOLDER_EDIT;
   const payloadId = modalAction.id ?? 0;
+
   const deleteMutation = useMutation({
     mutationFn: () => (modalAction.action === '링크 삭제' ? deleteLink(payloadId) : deleteFolder(payloadId)),
     onSuccess: () => {
@@ -30,6 +33,7 @@ function Modal({ modalAction, setModalAction, categoryList, refetch }: ModalType
         refetch();
       } else {
         queryClient.invalidateQueries({ queryKey: folderKey.categoryLoad });
+        router.push('/folder');
       }
       setModalAction({
         isView: false,
@@ -41,8 +45,10 @@ function Modal({ modalAction, setModalAction, categoryList, refetch }: ModalType
   });
 
   const actionScript: { [key: string]: JSX.Element } = {
-    [MODAL_ACTION_SCRIPT.FOLDER_EDIT]: <ModalForm buttonText="변경하기" />,
-    [MODAL_ACTION_SCRIPT.FOLDER_ADD]: <ModalForm buttonText="추가하기" />,
+    [MODAL_ACTION_SCRIPT.FOLDER_EDIT]: (
+      <ModalForm setModalAction={setModalAction} modalAction={modalAction} buttonText="변경하기" />
+    ),
+    [MODAL_ACTION_SCRIPT.FOLDER_ADD]: <ModalForm setModalAction={setModalAction} buttonText="추가하기" />,
     [MODAL_ACTION_SCRIPT.FOLDER_SHARE]: <ModalShareList modalAction={modalAction} />,
     [MODAL_ACTION_SCRIPT.FOLDER_ADD_LINK]: (
       <ModalFolderAdd
