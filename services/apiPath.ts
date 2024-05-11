@@ -5,7 +5,7 @@ interface ApiPath {
   HEADER_USER_INFO: string;
   GET_FOLDER_OWNER_INFO: string;
   FOLDER: string;
-  ALL_LINK: string;
+  LINK: string;
   CATEGORY_LINK: string;
   GET_USER_INFO: string;
 }
@@ -17,7 +17,7 @@ const API_PATH: ApiPath = {
   HEADER_USER_INFO: '/api/users/1',
   GET_FOLDER_OWNER_INFO: '/users/',
   FOLDER: '/folders',
-  ALL_LINK: '/links',
+  LINK: '/links',
   CATEGORY_LINK: '/api/users/11/links?folderId=',
   GET_USER_INFO: '/users'
 } as const;

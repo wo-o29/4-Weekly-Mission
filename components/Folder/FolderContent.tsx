@@ -50,7 +50,8 @@ function FolderContent({
       alert('링크를 입력해 주세요!');
       return;
     }
-    handleModalAction('폴더에 추가', searchInputValue);
+    handleModalAction('폴더에 추가', undefined, searchInputValue);
+    setSearchInputValue('');
   };
 
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>): void => {

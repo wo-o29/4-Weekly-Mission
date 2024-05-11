@@ -63,6 +63,11 @@ const ModalButton = styled.button`
   border: none;
   color: var(--Grey-Light);
   font-weight: 600;
+
+  &:disabled {
+    background: var(--gray20);
+    color: var(--black);
+  }
 `;
 
 export const ModalButtonBlue = styled(ModalButton)`
@@ -118,6 +123,8 @@ export const ModalShareText = styled.p`
 
 export const ModalCategory = styled.ul`
   width: 17.5rem;
+  height: 20rem;
+  overflow-y: auto;
   margin: 1.5rem auto;
 `;
 

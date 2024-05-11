@@ -7,19 +7,11 @@ import FolderContent from '../../../components/Folder/FolderContent';
 import Footer from '../../../components/Footer/Footer';
 import FloatingButton from '../../../components/Folder/FloatingButton';
 import Modal from '../../../components/Modal/Modal';
-import { LinkType, CategoryType, DefaultCategoryType, ModalActionType } from '../../../types/type';
+import { LinkType, CategoryType, ModalActionType } from '../../../types/type';
 import { selectLinkLoad, userCategoryLoad } from '../../../services/folderApi';
 import { folderKey } from '../../../services/queryKey';
 
 let prevId = 999;
-
-const INITIAL_CATEGORY: DefaultCategoryType[] = [
-  {
-    id: 0,
-    name: '전체',
-    link: { count: 0 }
-  }
-];
 
 function Folder() {
   const router = useRouter();
@@ -39,7 +31,7 @@ function Folder() {
     gcTime: 5 * 60 * 1000
   });
 
-  const { data: linkList } = useQuery({
+  const { data: linkList, refetch } = useQuery({
     queryKey: folderKey.selectLinkLoad(id),
     queryFn: () => selectLinkLoad(Number(id)),
     enabled: !!id,
@@ -57,12 +49,13 @@ function Folder() {
     prevId = 999;
   };
 
-  const handleModalAction = (action: string, subTitle?: string, url?: string): void => {
+  const handleModalAction = (action: string, subTitle?: string, url?: string, selectId?: number): void => {
     setModalAction({
       isView: true,
       action,
       subTitle,
-      url
+      url,
+      id: selectId
     });
   };
 
@@ -90,7 +83,12 @@ function Folder() {
       <Footer />
       <FloatingButton />
       {modalAction.isView && (
-        <Modal modalAction={modalAction} setModalAction={setModalAction} categoryList={categoryList} />
+        <Modal
+          refetch={refetch}
+          modalAction={modalAction}
+          setModalAction={setModalAction}
+          categoryList={categoryList}
+        />
       )}
     </>
   );

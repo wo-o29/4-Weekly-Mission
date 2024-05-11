@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import * as Styled from './Category.styled';
 import { SelectCategoryType, CategoryType } from '../../types/type';
 
@@ -34,7 +36,6 @@ const categoryControlList: CategoryControlListType[] = [
 interface CategoryPropsType {
   categoryList?: CategoryType[];
   selectCategory?: SelectCategoryType;
-  allLinkLoad?: () => Promise<void>;
   handleSelectCategory?: (id: number, name: string) => void;
   handleModalAction?: (action: string, subTitle?: string, url?: string) => void;
 }
@@ -43,8 +44,10 @@ function Category({ categoryList, selectCategory, handleSelectCategory, handleMo
   if (!categoryList || !selectCategory || !handleSelectCategory || !handleModalAction) {
     return null;
   }
-
+  const router = useRouter();
+  const { id } = router.query;
   const isControlVisible: boolean = selectCategory.name !== '전체';
+
   return (
     <>
       <Styled.Category>
@@ -52,6 +55,9 @@ function Category({ categoryList, selectCategory, handleSelectCategory, handleMo
           {categoryList.map((category) => {
             const isSelect = selectCategory.id === category.id; // 현재 선택된 카테고리 ID와 카테고리 ID가 맞다면 true
             const url = category.id === 0 ? '/folder' : `/folder/${category.id}`;
+            if (id && +id === category.id && selectCategory.id !== +id && selectCategory.id !== 0) {
+              handleSelectCategory(+id, category.name);
+            }
             return (
               <Link href={url} key={category.id}>
                 <Styled.CategoryList

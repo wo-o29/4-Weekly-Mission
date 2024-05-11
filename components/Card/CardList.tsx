@@ -13,14 +13,14 @@ interface CardListPropsType {
   selectCardId?: number;
   linkList: LinkType[];
   option: boolean;
-  handleModalAction?: (action: string, subTitle?: string, url?: string) => void;
+  handleModalAction?: (action: string, subTitle?: string, url?: string, id?: number) => void;
 }
 
 function CardList({ handleKebabClick, selectCardId, linkList, option, handleModalAction }: CardListPropsType) {
-  const handleKebabModalAction = (action: string, subTitle: string, e: MouseEvent<HTMLLIElement>) => {
+  const handleKebabModalAction = (action: string, subTitle: string, e: MouseEvent<HTMLLIElement>, id: number) => {
     if (handleModalAction) {
       e.preventDefault();
-      handleModalAction(action, subTitle);
+      handleModalAction(action, subTitle, undefined, id);
     }
   };
 
@@ -65,10 +65,10 @@ function CardList({ handleKebabClick, selectCardId, linkList, option, handleModa
                   />
                   {selectCardId === id && (
                     <Styled.KebabListBox>
-                      <Styled.KebabList onClick={(e) => handleKebabModalAction('링크 삭제', url, e)}>
+                      <Styled.KebabList onClick={(e) => handleKebabModalAction('링크 삭제', url, e, id)}>
                         삭제하기
                       </Styled.KebabList>
-                      <Styled.KebabList onClick={(e) => handleKebabModalAction('폴더에 추가', url, e)}>
+                      <Styled.KebabList onClick={(e) => handleKebabModalAction('폴더에 추가', url, e, id)}>
                         폴더에 추가
                       </Styled.KebabList>
                     </Styled.KebabListBox>

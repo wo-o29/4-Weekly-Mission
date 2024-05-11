@@ -45,12 +45,13 @@ function Folder() {
     prevId = 999;
   };
 
-  const handleModalAction = (action: string, subTitle?: string, url?: string): void => {
+  const handleModalAction = (action: string, subTitle?: string, url?: string, selectId?: number): void => {
     setModalAction({
       isView: true,
       action,
       subTitle,
-      url
+      url,
+      id: selectId
     });
   };
 

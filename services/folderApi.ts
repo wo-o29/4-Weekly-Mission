@@ -21,7 +21,7 @@ export const userCategoryLoad = async (): Promise<any> => {
 
 export const allLinkLoad = async (): Promise<any> => {
   try {
-    const response = await api.get(API_PATH.ALL_LINK);
+    const response = await api.get(API_PATH.LINK);
     return response.data;
   } catch (error) {
     return console.error(error);
