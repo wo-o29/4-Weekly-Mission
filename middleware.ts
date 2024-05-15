@@ -3,12 +3,12 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import PAGE_PATH from './constant/pagePath';
+import ACCESS_TOKEN from './constant/accessToken';
 
 // 로그인하지 않은 유저만 접근할 수 있는 URL 정규식
 const guestOnlyUrlRegex = /^(\/$|\/signup|\/signin)/;
 // 로그인한 유저만 접근할 수 있는 URL 정규식
 const userOnlyUrlRegex = /^(\/folder|\/share)/;
-const ACCESS_TOKEN = 'accessToken';
 
 export const middleware = async (request: NextRequest) => {
   const pathName = request.nextUrl.pathname;

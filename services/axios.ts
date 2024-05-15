@@ -1,7 +1,6 @@
 import axios from 'axios';
 import localstorageControl from '../utils/localstorageControl';
-
-const ACCESS_TOKEN = 'accessToken';
+import ACCESS_TOKEN from '../constant/accessToken';
 
 const api = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_BASE_URL}`

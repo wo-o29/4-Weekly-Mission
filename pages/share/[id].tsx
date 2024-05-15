@@ -17,24 +17,18 @@ function Share() {
   const { data: folderInfo } = useQuery({
     queryKey: shareKey.folderInfo(id),
     queryFn: ({ queryKey }) => getFolderInfo(queryKey[1]),
-    staleTime: 1 * 60 * 1000,
-    gcTime: 5 * 60 * 1000,
     enabled: !!id
   });
 
   const { data: folderOwnerInfo } = useQuery({
     queryKey: shareKey.folderOwnerInfo(folderInfo?.user_id),
     queryFn: ({ queryKey }) => getFolderOwnerInfo(queryKey[1]),
-    staleTime: 1 * 60 * 1000,
-    gcTime: 5 * 60 * 1000,
     enabled: !!folderInfo?.user_id
   });
 
   const { data: linkList } = useQuery({
     queryKey: shareKey.linkList(id),
     queryFn: ({ queryKey }) => getLinkList(queryKey[1]),
-    staleTime: 1 * 60 * 1000,
-    gcTime: 5 * 60 * 1000,
     enabled: !!id
   });
 

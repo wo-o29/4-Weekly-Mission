@@ -1,10 +1,12 @@
+import { isServer } from '../utils/envUtils';
+
 export const setCookie = (name: string, value: string, options: Record<string, any> = {}) => {
   options = {
     path: '/',
     ...options
   };
-  const isDocument = typeof document !== 'undefined';
-  if (!isDocument) return;
+
+  if (isServer()) return;
 
   if (options.expires instanceof Date) {
     options.expires = options.expires.toUTCString();

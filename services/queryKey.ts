@@ -11,5 +11,5 @@ export const userKey = {
 export const folderKey = {
   allLink: ['allLink'] as const,
   categoryLoad: ['categoryLoad'] as const,
-  selectLinkLoad: (id: any) => ['linkLoad', id] as const
+  selectLinkLoad: (id: any) => [...folderKey.categoryLoad, id] as const
 };

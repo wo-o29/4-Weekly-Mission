@@ -10,13 +10,10 @@ import { userInfoType, UserInputs, UserInputType } from '../../types/type';
 import { LoginSchema, RegisterSchema } from '../../constant/schema';
 import { login, register } from '../../services/authApi';
 import PAGE_PATH from '../../constant/pagePath';
-import { setCookie } from '../../services/cookie';
 
 interface AuthFormProps {
   isRegister: boolean;
 }
-
-const ACCESS_TOKEN = 'accessToken';
 
 function AuthForm({ isRegister }: AuthFormProps) {
   const router = useRouter();
@@ -46,10 +43,7 @@ function AuthForm({ isRegister }: AuthFormProps) {
     };
 
     authMutation.mutate(userInfo, {
-      onSuccess: (data) => {
-        setCookie(ACCESS_TOKEN, data.accessToken, {
-          'max-age': 43200 // 24시간
-        });
+      onSuccess: () => {
         router.push(PAGE_PATH.folder);
       },
       onError: (error: any) => {
@@ -57,6 +51,7 @@ function AuthForm({ isRegister }: AuthFormProps) {
           // 이메일 중복 확인 에러
           setFieldError(AUTH_ERROR.EMAIL_DUPLICATION);
         }
+
         if (error.response.status === 400) {
           if (error.response.data.message === 'Invalid login credentials') {
             // 로그인 에러

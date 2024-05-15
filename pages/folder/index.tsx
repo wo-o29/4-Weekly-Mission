@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Head from 'next/head';
 import { useQuery } from '@tanstack/react-query';
 import Header from '../../components/Header/Header';
@@ -10,8 +10,6 @@ import { LinkType, CategoryType, ModalActionType } from '../../types/type';
 import { userCategoryLoad, allLinkLoad } from '../../services/folderApi';
 import { folderKey } from '../../services/queryKey';
 
-let prevId = 999;
-
 function Folder() {
   const [selectCardId, setSelectCardId] = useState<number>(0);
   const [modalAction, setModalAction] = useState<ModalActionType>({
@@ -20,29 +18,26 @@ function Folder() {
     subTitle: '',
     url: ''
   });
+  const prevId = useRef(999);
 
   const { data: categoryList } = useQuery({
     queryKey: folderKey.categoryLoad,
-    queryFn: userCategoryLoad,
-    staleTime: 1 * 60 * 1000,
-    gcTime: 5 * 60 * 1000
+    queryFn: userCategoryLoad
   });
 
   const { data: linkList } = useQuery({
     queryKey: folderKey.allLink,
-    queryFn: allLinkLoad,
-    staleTime: 1 * 60 * 1000,
-    gcTime: 5 * 60 * 1000
+    queryFn: allLinkLoad
   });
 
   const handleKebabClick = (id: number): void => {
-    if (prevId !== id) {
+    if (prevId.current !== id) {
       setSelectCardId(id);
-      prevId = id;
+      prevId.current = id;
       return;
     }
     setSelectCardId(0);
-    prevId = 999;
+    prevId.current = 999;
   };
 
   const handleModalAction = (action: string, subTitle?: string, url?: string, selectId?: number): void => {

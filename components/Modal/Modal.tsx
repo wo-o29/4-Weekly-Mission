@@ -80,11 +80,11 @@ function Modal({ modalAction, setModalAction, categoryList, refetch }: ModalType
     script.src = 'https://developers.kakao.com/sdk/js/kakao.js';
     script.async = true;
     document.body.appendChild(script);
-    document.body.style.cssText = 'overflow: hidden';
+    document.body.style.overflow = 'hidden';
 
     return () => {
       document.body.removeChild(script);
-      document.body.style.cssText = '';
+      document.body.style.overflow = 'none';
     };
   });
 

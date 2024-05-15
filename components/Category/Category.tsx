@@ -40,11 +40,13 @@ interface CategoryPropsType {
 }
 
 function Category({ categoryList, selectCategory, handleSelectCategory, handleModalAction }: CategoryPropsType) {
+  const router = useRouter();
+  const { id } = router.query;
+
   if (!categoryList || !selectCategory || !handleSelectCategory || !handleModalAction) {
     return null;
   }
-  const router = useRouter();
-  const { id } = router.query;
+
   const isControlVisible: boolean = selectCategory.name !== '전체';
 
   return (
