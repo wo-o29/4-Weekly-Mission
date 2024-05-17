@@ -1,10 +1,8 @@
 import Link from 'next/link';
-import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import * as Styled from './Header.styled';
-import { getUserInfo } from '../../services/userApi';
 import PAGE_PATH from '../../constant/pagePath';
-import { userKey } from '../../services/queryKey';
+import { useUserInfo } from '../../hooks/useUserInfo';
 
 const HeaderLogoImg = '/icon/header-logo.svg';
 
@@ -13,12 +11,7 @@ interface HeaderProps {
 }
 
 function Header({ isSticky = true }: HeaderProps) {
-  const { data } = useQuery({
-    queryKey: userKey.userInfo,
-    queryFn: getUserInfo,
-    staleTime: 60 * 60 * 1000,
-    gcTime: 600 * 60 * 1000
-  });
+  const userInfo = useUserInfo();
 
   return (
     <Styled.Header $isSticky={isSticky}>
@@ -26,10 +19,10 @@ function Header({ isSticky = true }: HeaderProps) {
         <Link href={PAGE_PATH.main}>
           <Image width="133" height="24" src={HeaderLogoImg} alt="롤링 로고 이미지" priority />
         </Link>
-        {data ? (
+        {userInfo ? (
           <Styled.UserInfoBox>
-            <Styled.UserImage width={28} height={28} src={data?.image_source} alt="유저 프로필 이미지" />
-            <Styled.UserEmail>{data?.email}</Styled.UserEmail>
+            <Styled.UserImage width={28} height={28} src={userInfo?.image_source} alt="유저 프로필 이미지" />
+            <Styled.UserEmail>{userInfo?.email}</Styled.UserEmail>
           </Styled.UserInfoBox>
         ) : (
           <Styled.LoginButton href="/signin">로그인</Styled.LoginButton>

@@ -8,8 +8,8 @@ import Footer from '../../../components/Footer/Footer';
 import FloatingButton from '../../../components/Folder/FloatingButton';
 import Modal from '../../../components/Modal/Modal';
 import { LinkType, CategoryType, ModalActionType } from '../../../types/type';
-import { selectLinkLoad, userCategoryLoad } from '../../../services/folderApi';
-import { folderKey } from '../../../services/queryKey';
+import { useCategoryList } from '../../../hooks/useCategoryList';
+import { useSelectLinkList } from '../../../hooks/useSelectLinkList';
 
 function Folder() {
   const router = useRouter();
@@ -23,16 +23,8 @@ function Folder() {
   });
   const prevId = useRef(999);
 
-  const { data: categoryList } = useQuery({
-    queryKey: folderKey.categoryLoad,
-    queryFn: userCategoryLoad
-  });
-
-  const { data: linkList, refetch } = useQuery({
-    queryKey: folderKey.selectLinkLoad(id),
-    queryFn: () => selectLinkLoad(Number(id)),
-    enabled: !!id
-  });
+  const categoryList = useCategoryList();
+  const { data: linkList, refetch } = useSelectLinkList(Number(id));
 
   const handleKebabClick = (cardId: number): void => {
     if (prevId.current !== cardId) {

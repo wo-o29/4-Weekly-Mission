@@ -1,14 +1,13 @@
 import { useState, useRef } from 'react';
 import Head from 'next/head';
-import { useQuery } from '@tanstack/react-query';
 import Header from '../../components/Header/Header';
 import FolderContent from '../../components/Folder/FolderContent';
 import Footer from '../../components/Footer/Footer';
 import FloatingButton from '../../components/Folder/FloatingButton';
 import Modal from '../../components/Modal/Modal';
 import { LinkType, CategoryType, ModalActionType } from '../../types/type';
-import { userCategoryLoad, allLinkLoad } from '../../services/folderApi';
-import { folderKey } from '../../services/queryKey';
+import { useCategoryList } from '../../hooks/useCategoryList';
+import { useLinkList } from '../../hooks/useLinkList';
 
 function Folder() {
   const [selectCardId, setSelectCardId] = useState<number>(0);
@@ -20,15 +19,8 @@ function Folder() {
   });
   const prevId = useRef(999);
 
-  const { data: categoryList } = useQuery({
-    queryKey: folderKey.categoryLoad,
-    queryFn: userCategoryLoad
-  });
-
-  const { data: linkList } = useQuery({
-    queryKey: folderKey.allLink,
-    queryFn: allLinkLoad
-  });
+  const categoryList = useCategoryList();
+  const linkList = useLinkList();
 
   const handleKebabClick = (id: number): void => {
     if (prevId.current !== id) {
