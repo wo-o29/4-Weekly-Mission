@@ -54,11 +54,13 @@ function Category({ categoryList, selectCategory, handleSelectCategory, handleMo
       <Styled.Category>
         <Styled.CategoryBox>
           {categoryList.map((category) => {
-            const isSelect = selectCategory.id === category.id; // 현재 선택된 카테고리 ID와 카테고리 ID가 맞다면 true
-            const url = category.id === 0 ? '/folder' : `/folder/${category.id}`;
-            if (id && +id === category.id && selectCategory.id !== +id) {
-              handleSelectCategory(+id, category.name);
+            let isSelect = false;
+            if (id) {
+              isSelect = +id === category.id;
+            } else {
+              isSelect = category.id === 0;
             }
+            const url = category.id === 0 ? '/folder' : `/folder/${category.id}`;
 
             return (
               <Link href={url} key={category.id}>
