@@ -1,15 +1,14 @@
 import { useRouter } from 'next/router';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
 import * as Styled from './AuthForm.styled';
 import AuthInput from './AuthInput';
 import AUTH_ERROR from '../../constant/authError';
 import AUTH_TEXT from '../../constant/authText';
-import { userInfoType, UserInputs, UserInputType } from '../../types/type';
+import { UserInputs, UserInputType } from '../../types/type';
 import { LoginSchema, RegisterSchema } from '../../constant/schema';
-import { login, register } from '../../services/authApi';
 import PAGE_PATH from '../../constant/pagePath';
+import { useAuthMutation } from '../../hooks/useAuthMutation';
 
 interface AuthFormProps {
   isRegister: boolean;
@@ -32,9 +31,7 @@ function AuthForm({ isRegister }: AuthFormProps) {
     });
   };
 
-  const authMutation = useMutation({
-    mutationFn: (userInfo: userInfoType) => (isRegister ? register(userInfo) : login(userInfo))
-  });
+  const { mutate, isPending } = useAuthMutation(isRegister);
 
   const onSubmit = (userInput: UserInputs): void => {
     const userInfo = {
@@ -42,7 +39,7 @@ function AuthForm({ isRegister }: AuthFormProps) {
       password: userInput.password
     };
 
-    authMutation.mutate(userInfo, {
+    mutate(userInfo, {
       onSuccess: () => {
         router.push(PAGE_PATH.folder);
       },
@@ -89,7 +86,7 @@ function AuthForm({ isRegister }: AuthFormProps) {
             placeholder="비밀번호와 일치하는 값을 입력해 주세요"
           />
         )}
-        <Styled.Button disabled={authMutation.isPending} type="submit">
+        <Styled.Button disabled={isPending} type="submit">
           {isRegister ? '회원가입' : '로그인'}
         </Styled.Button>
       </Styled.Form>
