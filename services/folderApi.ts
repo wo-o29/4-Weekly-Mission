@@ -36,3 +36,14 @@ export const selectLinkLoad = async (id: number): Promise<any> => {
     return console.error(error);
   }
 };
+
+// eslint-disable-next-line consistent-return
+export const bookMarkLink = async (linkInfo: any) => {
+  try {
+    await api.put(`${API_PATH.LINK}/${linkInfo.id}`, {
+      favorite: !linkInfo.isFavorite
+    });
+  } catch (error) {
+    return console.error(error);
+  }
+};

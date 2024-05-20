@@ -9,6 +9,7 @@ export interface LinkType {
   title: string;
   description: string;
   url: string;
+  favorite: boolean;
 }
 
 export interface CategoryType {

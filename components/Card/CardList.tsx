@@ -1,12 +1,13 @@
 import { MouseEvent } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
 import getTimeDiff from '../../utils/getTimeDiff';
 import getCoustomDate from '../../utils/getCoustomDate';
 import * as Styled from './CardList.styled';
 import { LinkType } from '../../types/type';
-
-const StarIcon = '/icon/star.svg';
-const KebabIcon = '/icon/kebab.svg';
-const CardDefaultIcon = '/icon/default-card.svg';
+import StarIcon from './StarIcon';
+import { bookMarkLink } from '../../services/folderApi';
+import { folderKey } from '../../services/queryKey';
 
 interface CardListPropsType {
   handleKebabClick?: (id: number) => void;
@@ -17,6 +18,38 @@ interface CardListPropsType {
 }
 
 function CardList({ handleKebabClick, selectCardId, linkList, option, handleModalAction }: CardListPropsType) {
+  // 즐겨찾기 기능 주석 처리
+  // const router = useRouter();
+  // const { id: linkId } = router.query;
+  // const queryClient = useQueryClient();
+
+  // const { mutate } = useMutation({
+  //   mutationFn: (linkInfo: any) => bookMarkLink(linkInfo),
+  //   onMutate: async () => {
+  //     await queryClient.cancelQueries({
+  //       queryKey: folderKey.selectLinkLoad(linkId)
+  //     });
+
+  //     const prevFavoriteState = queryClient.getQueryData(folderKey.selectLinkLoad(linkId));
+
+  //     queryClient.setQueryData(folderKey.selectLinkLoad(linkId), (prev: any) => !prev);
+
+  //     return { prevFavoriteState };
+  //   },
+  //   onError: (err, _, context) => {
+  //     queryClient.setQueryData(folderKey.selectLinkLoad(linkId), context?.prevFavoriteState);
+  //   }
+  // });
+
+  const handleBookmarkLink = (linkInfo: any, e: MouseEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement;
+    if (target.tagName !== 'path') {
+      return;
+    }
+    e.preventDefault();
+    // mutate(linkInfo);
+  };
+
   const handleKebabModalAction = (
     actionParams: { action: string; subTitle: string; id: number },
     e: MouseEvent<HTMLLIElement>
@@ -45,16 +78,30 @@ function CardList({ handleKebabClick, selectCardId, linkList, option, handleModa
   return (
     <Styled.CardBox>
       {linkList.map((link) => {
-        const { id, createdAt, created_at, imageSource, image_source, description, url } = link;
+        const { id, createdAt, created_at, imageSource, image_source, description, url, favorite } = link;
         const imgSrc: string = imageSource ?? image_source ?? '';
         const linkCreated: string = createdAt ?? created_at ?? '';
         const createDate: Date = new Date(linkCreated);
         const timeDiffText: string = getTimeDiff(linkCreated);
         const coustomDate: string = getCoustomDate(createDate);
         return (
-          <Styled.Card key={id} href={url}>
-            {option && <Styled.StarIcon width={34} height={34} src={StarIcon} alt="별 아이콘" />}
-            <Styled.CardImgBox $imgSrc={imgSrc} $icon={CardDefaultIcon}>
+          <Styled.Card
+            key={id}
+            href={url}
+            onClick={
+              (e) =>
+                handleBookmarkLink(
+                  {
+                    id,
+                    isFavorite: favorite
+                  },
+                  e
+                )
+              // eslint-disable-next-line react/jsx-curly-newline
+            }
+          >
+            {option && <StarIcon isFavorite={favorite} />}
+            <Styled.CardImgBox $imgSrc={imgSrc} $icon="/icon/default-card.svg">
               <Styled.CardImg width={340} height={253} src={imgSrc} alt="카드 이미지" />
             </Styled.CardImgBox>
             <Styled.CardInfo>
@@ -64,7 +111,7 @@ function CardList({ handleKebabClick, selectCardId, linkList, option, handleModa
                   <img
                     onClick={(e) => handleKebabIconClick(e, id)}
                     className="content__kebab"
-                    src={KebabIcon}
+                    src="/icon/kebab.svg"
                     alt="케밥 아이콘"
                   />
                   {selectCardId === id && (
