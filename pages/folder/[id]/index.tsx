@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import Head from 'next/head';
-import { useQuery } from '@tanstack/react-query';
 import Header from '../../../components/Header/Header';
 import FolderContent from '../../../components/Folder/FolderContent';
 import Footer from '../../../components/Footer/Footer';

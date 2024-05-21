@@ -43,7 +43,7 @@ export const bookMarkLink = async (linkInfo: any) => {
     await api.put(`${API_PATH.LINK}/${linkInfo.id}`, {
       favorite: !linkInfo.isFavorite
     });
-  } catch (error) {
-    return console.error(error);
+  } catch (error: any) {
+    throw new Error(error);
   }
 };

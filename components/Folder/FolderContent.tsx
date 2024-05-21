@@ -22,7 +22,6 @@ function FolderContent({
   handleModalAction
 }: FolderContentPropsType) {
   const router = useRouter();
-  const { id } = router.query;
   const [selectCategory, setSelectCategory] = useState<SelectCategoryType>({
     // 현재 선택중인 카테고리
     id: 0,

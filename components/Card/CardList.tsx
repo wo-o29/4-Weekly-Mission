@@ -1,6 +1,5 @@
 import { MouseEvent } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
 import getTimeDiff from '../../utils/getTimeDiff';
 import getCoustomDate from '../../utils/getCoustomDate';
 import * as Styled from './CardList.styled';
@@ -18,28 +17,36 @@ interface CardListPropsType {
 }
 
 function CardList({ handleKebabClick, selectCardId, linkList, option, handleModalAction }: CardListPropsType) {
-  // 즐겨찾기 기능 주석 처리
-  // const router = useRouter();
-  // const { id: linkId } = router.query;
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-  // const { mutate } = useMutation({
-  //   mutationFn: (linkInfo: any) => bookMarkLink(linkInfo),
-  //   onMutate: async () => {
-  //     await queryClient.cancelQueries({
-  //       queryKey: folderKey.selectLinkLoad(linkId)
-  //     });
+  const { mutate } = useMutation({
+    mutationFn: (linkInfo: any) => bookMarkLink(linkInfo),
+    onMutate: async (linkInfo) => {
+      await queryClient.cancelQueries({
+        queryKey: folderKey.allLink
+      });
 
-  //     const prevFavoriteState = queryClient.getQueryData(folderKey.selectLinkLoad(linkId));
+      // 이전 값
+      const prevFavoriteState = queryClient.getQueryData(folderKey.allLink);
 
-  //     queryClient.setQueryData(folderKey.selectLinkLoad(linkId), (prev: any) => !prev);
+      // 새로운 값으로 낙관적 업데이트 진행
+      queryClient.setQueryData(folderKey.allLink, (prev: any) => {
+        return prev.map((link: any) => {
+          if (link.id === linkInfo.id) {
+            return { ...link, favorite: !link.favorite };
+          }
+          return link;
+        });
+      });
 
-  //     return { prevFavoriteState };
-  //   },
-  //   onError: (err, _, context) => {
-  //     queryClient.setQueryData(folderKey.selectLinkLoad(linkId), context?.prevFavoriteState);
-  //   }
-  // });
+      // 값이 들어있는 context 객체를 반환
+      return { prevFavoriteState };
+    },
+    // mutation이 실패하면 onMutate에서 반환된 context를 사용하여 롤백 진행
+    onError(err, _, context) {
+      queryClient.setQueryData(folderKey.allLink, context?.prevFavoriteState);
+    }
+  });
 
   const handleBookmarkLink = (linkInfo: any, e: MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
@@ -47,7 +54,7 @@ function CardList({ handleKebabClick, selectCardId, linkList, option, handleModa
       return;
     }
     e.preventDefault();
-    // mutate(linkInfo);
+    mutate(linkInfo);
   };
 
   const handleKebabModalAction = (
